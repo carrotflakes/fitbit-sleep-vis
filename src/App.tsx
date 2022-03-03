@@ -18,7 +18,7 @@ function App() {
   }, []);
 
   const profile = useSWR({ path: '/1/user/-/profile.json', accessToken }, fitbitFetcher);
-  const { sleeps, completed } = useSleeps(accessToken, new Date().toISOString().slice(0, 10));
+  const { sleeps, completed, error } = useSleeps(accessToken, new Date().toISOString().slice(0, 10));
 
   return (
     <div className={styles.app}>
@@ -43,6 +43,10 @@ function App() {
                 <img className={styles.avatar} src={profile.data.user.avatar} alt="" />
               }
             </div>
+            {error &&
+              <div>
+                {error.message.startsWith('429 ') ? 'rate limit!' : error.toString()}
+              </div>}
             {sleeps.length &&
               <>
                 {!completed && <div>loading...</div>}

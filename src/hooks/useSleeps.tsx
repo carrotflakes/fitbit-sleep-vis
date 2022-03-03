@@ -33,7 +33,7 @@ export const useSleeps = (accessToken: string | null, end: string): { sleeps: Sl
   //   error: null,
   // };
 
-  const { data, error, size, setSize } = useSWRInfinite(
+  const { data, error, isValidating, size, setSize } = useSWRInfinite(
     (pageIndex, previousPageData) => {
       if (previousPageData && previousPageData.sleep?.length === 0) {
         console.log("no more data")
@@ -51,7 +51,7 @@ export const useSleeps = (accessToken: string | null, end: string): { sleeps: Sl
       }
     },
     fitbitFetcher,
-  )
+  );
 
   const sleeps = (data || [])
     .map(d => d?.sleep || [])
@@ -65,13 +65,13 @@ export const useSleeps = (accessToken: string | null, end: string): { sleeps: Sl
   const completed = Array.isArray(data) && data.at(-1)?.length === 0; // FIXME
 
   useEffect(() => {
-    if (!completed && !error && data?.at(-1)) {
+    if (!isValidating && !completed && !error && data?.at(-1)) {
       setTimeout(() => {
         console.log("next")
         setSize(size + 1);
       }, 10);
     }
-  }, [completed, error, data, size, setSize]);
+  }, [isValidating, completed, error, data, size, setSize]);
 
   return {
     sleeps,

@@ -9,6 +9,7 @@ ReactDOM.render(
   <SWRConfig value={{
     revalidateOnFocus: false,
     revalidateOnReconnect: false,
+    errorRetryCount: 3,
   }}>
     <React.StrictMode>
       <App />

@@ -4,4 +4,9 @@ export const fitbitFetcher = (param: { path: string; accessToken: string; }) =>
       'Authorization': 'Bearer ' + param.accessToken,
     }),
     mode: 'cors',
-  }).then(res => res.json());
+  }).then(res => {
+    if (!res.ok) {
+      throw new Error(res.status + ' ' + res.statusText);
+    }
+    return res.json();
+  });
