@@ -51,6 +51,9 @@ export const useSleeps = (accessToken: string | null, end: string): { sleeps: Sl
       }
     },
     fitbitFetcher,
+    {
+      revalidateFirstPage: false,
+    }
   );
 
   const sleeps = (data || [])
