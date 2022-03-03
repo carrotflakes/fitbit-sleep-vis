@@ -68,7 +68,7 @@ export const useSleeps = (accessToken: string | null, end: string): { sleeps: Sl
   const completed = Array.isArray(data) && data.at(-1)?.length === 0; // FIXME
 
   useEffect(() => {
-    if (!isValidating && !completed && !error && data?.at(-1)) {
+    if (!isValidating && !completed && !error && size <= (data || []).length) {
       setTimeout(() => {
         console.log("next")
         setSize(size + 1);
