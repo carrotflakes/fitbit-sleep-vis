@@ -35,7 +35,7 @@ export const useSleeps = (accessToken: string | null, end: string): { sleeps: Sl
 
   const { data, error, size, setSize } = useSWRInfinite(
     (pageIndex, previousPageData) => {
-      if (previousPageData && previousPageData.sleep.length === 0) {
+      if (previousPageData && previousPageData.sleep?.length === 0) {
         console.log("no more data")
         return null
       }
