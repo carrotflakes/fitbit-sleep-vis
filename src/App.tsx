@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 import useSWR from 'swr';
 import styles from './App.module.css';
 import Heatmap from './components/heatmap';
@@ -44,13 +44,15 @@ function App() {
               }
             </div>
             {sleeps.length &&
-              <div>
-                duration: {sleeps.at(-1)?.endTime.slice(0, 10)} - {sleeps[0].startTime.slice(0, 10)}
-              </div>
+              <>
+                {!completed && <div>loading...</div>}
+                <div>
+                  duration: {sleeps.at(-1)?.endTime.slice(0, 10)} - {sleeps[0].startTime.slice(0, 10)}
+                </div>
+              </>
             }
             <Heatmap sleeps={sleeps} />
             <SleepsList sleeps={sleeps} />
-            {!completed && <div>loading...</div>}
           </div>
         }
       </main>

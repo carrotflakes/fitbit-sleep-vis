@@ -39,6 +39,7 @@ const SleepsList: VFC<{ sleeps: Sleep[] }> = ({ sleeps: ss }) => {
                 display: "inline-block",
                 width: "120px",
                 fontSize: "12px",
+                fontFamily: "consolas",
                 textAlign: "left",
               }}
             >
@@ -110,6 +111,6 @@ function showDate(date: Date) {
   return (
     date.toISOString().slice(0, 10) +
     " " +
-    "sun mon tue wed thu fri sat".split(" ")[date.getDay()]
+    "SUN MON TUE WED THU FRI SAT".split(" ")[date.getDay()]
   )
 }
