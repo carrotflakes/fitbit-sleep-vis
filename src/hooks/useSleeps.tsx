@@ -33,7 +33,7 @@ export const useSleeps = (accessToken: string | null, end: string): { sleeps: Sl
   //   error: null,
   // };
 
-  const { data, error, isValidating, mutate, size, setSize } = useSWRInfinite(
+  const { data, error, size, setSize } = useSWRInfinite(
     (pageIndex, previousPageData) => {
       if (previousPageData && previousPageData.sleep.length === 0) {
         console.log("no more data")
@@ -71,7 +71,7 @@ export const useSleeps = (accessToken: string | null, end: string): { sleeps: Sl
         setSize(size + 1);
       }, 10);
     }
-  }, [completed, error, data])
+  }, [completed, error, data, size, setSize]);
 
   return {
     sleeps,
