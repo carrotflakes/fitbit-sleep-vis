@@ -20,7 +20,6 @@ const SleepsList: VFC<{ sleeps: Sleep[] }> = ({ sleeps: ss }) => {
         endTime: new Date(sleep.endTime),
       }
     })
-    .sort((a, b) => a.startTime.getTime() - b.startTime.getTime())
   return (
     <div>
       {sleeps
@@ -40,6 +39,7 @@ const SleepsList: VFC<{ sleeps: Sleep[] }> = ({ sleeps: ss }) => {
                 display: "inline-block",
                 width: "120px",
                 fontSize: "12px",
+                textAlign: "left",
               }}
             >
               {showDate(date)}
@@ -85,6 +85,7 @@ const SleepsList: VFC<{ sleeps: Sleep[] }> = ({ sleeps: ss }) => {
                 })}
               {[...Array(3)].map((_, i) => (
                 <div
+                  key={i}
                   style={{
                     position: "absolute",
                     top: "1px",

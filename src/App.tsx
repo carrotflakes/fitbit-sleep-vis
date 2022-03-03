@@ -18,7 +18,7 @@ function App() {
   }, []);
 
   const profile = useSWR({ path: '/1/user/-/profile.json', accessToken }, fitbitFetcher);
-  const sleepsRes = useSleeps(accessToken);
+  const { sleeps, completed } = useSleeps(accessToken, new Date().toISOString().slice(0, 10));
 
   return (
     <div className={styles.app}>
@@ -43,8 +43,14 @@ function App() {
                 <img className={styles.avatar} src={profile.data.user.avatar} alt="" />
               }
             </div>
-            <Heatmap sleeps={sleepsRes.sleeps} />
-            <SleepsList sleeps={sleepsRes.sleeps} />
+            {sleeps.length &&
+              <div>
+                duration: {sleeps.at(-1)?.endTime.slice(0, 10)} - {sleeps[0].startTime.slice(0, 10)}
+              </div>
+            }
+            <Heatmap sleeps={sleeps} />
+            <SleepsList sleeps={sleeps} />
+            {!completed && <div>loading...</div>}
           </div>
         }
       </main>

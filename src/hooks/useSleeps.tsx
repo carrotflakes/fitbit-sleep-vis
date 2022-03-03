@@ -1,17 +1,49 @@
 import { Sleep } from "../models/sleep"
 import useSWRInfinite from 'swr/infinite'
 import { fitbitFetcher } from "../fitbitFetcher"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
-export const useSleeps = (accessToken: string | null): { sleeps: Sleep[]; completed: boolean, error: null | Error } => {
+export const useSleeps = (accessToken: string | null, end: string): { sleeps: Sleep[]; completed: boolean, error: null | Error } => {
+  const [sleeps, setSleeps] = useState<Sleep[]>([])
+  useEffect(() => {
+    if (sleeps.length < 100) {
+      setTimeout(() => {
+        const time = new Date(new Date().toISOString().slice(0, 10));
+        time.setDate(time.getDate() - sleeps.length);
+        const ss = [] as Sleep[];
+        for (let i = 0; i < 10; i++) {
+          time.setDate(time.getDate() - 1);
+          const startTime = new Date(time);
+          startTime.setMinutes(startTime.getMinutes() + Math.random() * 6 * 60);
+          const endTime = new Date(startTime);
+          endTime.setMinutes(endTime.getMinutes() + 3 * 60 + Math.random() * 6 * 60);
+          ss.push({
+            startTime: startTime.toISOString(),
+            endTime: endTime.toISOString(),
+          });
+        }
+        setSleeps(sleeps => [...sleeps, ...ss]);
+      }, 1000);
+    }
+  }, [sleeps, setSleeps]);
+
+  return {
+    sleeps,
+    completed: sleeps.length >= 100,
+    error: null,
+  };
+
   // const { data, error, isValidating, mutate, size, setSize } = useSWRInfinite(
   //   (pageIndex, previousPageData) => {
+  //     if (previousPageData && previousPageData.sleep.length === 0) {
+  //       console.log("no more data")
+  //       return null
+  //     }
+
   //     const e = new Date(end);
-  //     e.setDate(e.getDate() - pageIndex * 100);
+  //     e.setDate(e.getDate() - pageIndex * 101);
   //     const s = new Date(e);
   //     s.setDate(s.getDate() - 100);
-
-  //     if (e.getTime() < new Date(start).getTime()) return null;
 
   //     return {
   //       path: `/1.2/user/-/sleep/date/${s.toISOString().slice(0, 10)}/${e.toISOString().slice(0, 10)}.json`,
@@ -35,19 +67,15 @@ export const useSleeps = (accessToken: string | null): { sleeps: Sleep[]; comple
   // useEffect(() => {
   //   if (!completed && !error && data?.at(-1)) {
   //     setTimeout(() => {
-  //     setSize(size + 1);
-  //     }, 10000);
+  //       console.log("next")
+  //       setSize(size + 1);
+  //     }, 10);
   //   }
-  // }, [completed, error, size])
+  // }, [completed, error, data])
 
   // return {
   //   sleeps,
   //   completed,
   //   error,
   // }
-  return {
-    sleeps: [{"startTime":"2022-03-03T04:19:00.000","endTime":"2022-03-03T11:56:30.000"},{"startTime":"2022-03-02T15:06:00.000","endTime":"2022-03-02T19:32:30.000"},{"startTime":"2022-03-02T05:35:00.000","endTime":"2022-03-02T12:05:30.000"},{"startTime":"2022-03-01T23:30:30.000","endTime":"2022-03-02T01:23:00.000"},{"startTime":"2022-03-01T09:22:30.000","endTime":"2022-03-01T12:27:30.000"},{"startTime":"2022-02-28T21:38:00.000","endTime":"2022-03-01T01:44:30.000"},{"startTime":"2022-02-28T10:37:00.000","endTime":"2022-02-28T18:50:30.000"},{"startTime":"2022-02-28T01:47:30.000","endTime":"2022-02-28T04:23:30.000"},{"startTime":"2022-02-27T06:49:00.000","endTime":"2022-02-27T19:34:30.000"},{"startTime":"2022-02-26T07:08:00.000","endTime":"2022-02-26T16:00:00.000"},{"startTime":"2022-02-25T20:08:30.000","endTime":"2022-02-25T22:56:30.000"},{"startTime":"2022-02-25T06:09:00.000","endTime":"2022-02-25T12:43:30.000"},{"startTime":"2022-02-24T01:01:30.000","endTime":"2022-02-24T11:37:30.000"},{"startTime":"2022-02-23T06:48:00.000","endTime":"2022-02-23T15:08:30.000"},{"startTime":"2022-02-22T00:52:00.000","endTime":"2022-02-22T10:51:30.000"},{"startTime":"2022-02-21T07:23:00.000","endTime":"2022-02-21T11:25:30.000"},{"startTime":"2022-02-20T23:09:00.000","endTime":"2022-02-21T06:12:30.000"},{"startTime":"2022-02-20T08:38:30.000","endTime":"2022-02-20T10:03:30.000"},{"startTime":"2022-02-19T06:52:30.000","endTime":"2022-02-19T16:07:30.000"},{"startTime":"2022-02-18T20:59:30.000","endTime":"2022-02-19T02:15:30.000"},{"startTime":"2022-02-18T05:13:00.000","endTime":"2022-02-18T10:46:30.000"},{"startTime":"2022-02-17T10:27:00.000","endTime":"2022-02-17T12:30:30.000"},{"startTime":"2022-02-17T05:14:00.000","endTime":"2022-02-17T09:21:30.000"},{"startTime":"2022-02-16T06:39:30.000","endTime":"2022-02-16T11:25:30.000"},{"startTime":"2022-02-15T01:51:00.000","endTime":"2022-02-15T12:02:30.000"},{"startTime":"2022-02-14T09:10:30.000","endTime":"2022-02-14T12:31:30.000"},{"startTime":"2022-02-13T05:24:00.000","endTime":"2022-02-13T15:44:30.000"},{"startTime":"2022-02-12T18:51:30.000","endTime":"2022-02-12T20:57:30.000"},{"startTime":"2022-02-12T04:43:00.000","endTime":"2022-02-12T11:56:30.000"},{"startTime":"2022-02-11T06:33:00.000","endTime":"2022-02-11T18:20:00.000"},{"startTime":"2022-02-10T20:37:30.000","endTime":"2022-02-10T23:48:30.000"},{"startTime":"2022-02-10T06:09:30.000","endTime":"2022-02-10T08:28:00.000"},{"startTime":"2022-02-09T05:47:00.000","endTime":"2022-02-09T12:47:30.000"},{"startTime":"2022-02-08T22:58:00.000","endTime":"2022-02-09T01:49:30.000"},{"startTime":"2022-02-08T00:54:30.000","endTime":"2022-02-08T12:04:30.000"},{"startTime":"2022-02-07T06:12:00.000","endTime":"2022-02-07T12:14:30.000"},{"startTime":"2022-02-06T16:24:00.000","endTime":"2022-02-06T20:34:00.000"},{"startTime":"2022-02-06T06:50:30.000","endTime":"2022-02-06T12:58:00.000"},{"startTime":"2022-02-05T02:08:00.000","endTime":"2022-02-05T14:24:30.000"},{"startTime":"2022-02-04T05:26:00.000","endTime":"2022-02-04T13:17:00.000"},{"startTime":"2022-02-03T06:53:00.000","endTime":"2022-02-03T11:44:30.000"},{"startTime":"2022-02-03T03:32:00.000","endTime":"2022-02-03T05:07:00.000"},{"startTime":"2022-02-02T05:27:00.000","endTime":"2022-02-02T11:29:30.000"},{"startTime":"2022-02-01T21:29:00.000","endTime":"2022-02-02T01:43:30.000"},{"startTime":"2022-02-01T05:03:00.000","endTime":"2022-02-01T11:32:30.000"},{"startTime":"2022-01-31T05:47:00.000","endTime":"2022-01-31T13:35:30.000"},{"startTime":"2022-01-30T06:49:00.000","endTime":"2022-01-30T17:25:30.000"},{"startTime":"2022-01-29T04:52:30.000","endTime":"2022-01-29T16:50:00.000"},{"startTime":"2022-01-28T20:13:00.000","endTime":"2022-01-28T23:09:30.000"},{"startTime":"2022-01-28T06:56:00.000","endTime":"2022-01-28T12:29:30.000"},{"startTime":"2022-01-27T23:49:00.000","endTime":"2022-01-28T03:16:30.000"},{"startTime":"2022-01-27T06:38:00.000","endTime":"2022-01-27T12:50:30.000"},{"startTime":"2022-01-26T06:03:30.000","endTime":"2022-01-26T13:31:30.000"},{"startTime":"2022-01-25T18:23:00.000","endTime":"2022-01-25T19:49:30.000"},{"startTime":"2022-01-25T04:41:30.000","endTime":"2022-01-25T12:48:30.000"},{"startTime":"2022-01-24T04:00:00.000","endTime":"2022-01-24T11:03:00.000"},{"startTime":"2022-01-23T08:31:30.000","endTime":"2022-01-23T14:15:30.000"},{"startTime":"2022-01-22T04:12:30.000","endTime":"2022-01-22T15:52:30.000"},{"startTime":"2022-01-21T05:34:30.000","endTime":"2022-01-21T12:14:30.000"},{"startTime":"2022-01-20T05:24:30.000","endTime":"2022-01-20T13:06:30.000"},{"startTime":"2022-01-19T06:04:30.000","endTime":"2022-01-19T13:01:30.000"},{"startTime":"2022-01-18T04:07:00.000","endTime":"2022-01-18T12:14:30.000"},{"startTime":"2022-01-17T11:15:30.000","endTime":"2022-01-17T13:12:30.000"},{"startTime":"2022-01-17T03:35:00.000","endTime":"2022-01-17T06:03:30.000"},{"startTime":"2022-01-16T08:02:00.000","endTime":"2022-01-16T15:33:00.000"},{"startTime":"2022-01-16T01:34:00.000","endTime":"2022-01-16T03:00:00.000"},{"startTime":"2022-01-15T05:09:00.000","endTime":"2022-01-15T12:20:30.000"},{"startTime":"2022-01-14T21:52:30.000","endTime":"2022-01-14T22:53:30.000"},{"startTime":"2022-01-14T06:10:00.000","endTime":"2022-01-14T13:59:00.000"},{"startTime":"2022-01-13T03:12:30.000","endTime":"2022-01-13T12:53:30.000"},{"startTime":"2022-01-12T05:21:00.000","endTime":"2022-01-12T11:26:30.000"},{"startTime":"2022-01-11T06:47:30.000","endTime":"2022-01-11T11:59:00.000"},{"startTime":"2022-01-10T04:22:00.000","endTime":"2022-01-10T18:28:30.000"},{"startTime":"2022-01-09T08:41:00.000","endTime":"2022-01-09T18:06:30.000"},{"startTime":"2022-01-08T22:51:30.000","endTime":"2022-01-09T00:52:30.000"},{"startTime":"2022-01-08T06:15:00.000","endTime":"2022-01-08T14:41:30.000"},{"startTime":"2022-01-07T06:45:00.000","endTime":"2022-01-07T12:30:30.000"},{"startTime":"2022-01-07T03:36:00.000","endTime":"2022-01-07T05:02:30.000"},{"startTime":"2022-01-06T22:28:00.000","endTime":"2022-01-07T02:26:30.000"},{"startTime":"2022-01-06T06:51:00.000","endTime":"2022-01-06T12:35:30.000"},{"startTime":"2022-01-06T01:36:00.000","endTime":"2022-01-06T05:07:30.000"},{"startTime":"2022-01-05T06:46:00.000","endTime":"2022-01-05T13:32:30.000"},{"startTime":"2022-01-04T03:43:30.000","endTime":"2022-01-04T11:54:30.000"},{"startTime":"2022-01-03T07:10:00.000","endTime":"2022-01-03T16:05:00.000"},{"startTime":"2022-01-02T08:25:30.000","endTime":"2022-01-02T16:54:00.000"},{"startTime":"2022-01-01T08:11:30.000","endTime":"2022-01-01T17:57:30.000"},{"startTime":"2022-01-01T01:55:00.000","endTime":"2022-01-01T06:41:30.000"},{"startTime":"2021-12-31T06:40:00.000","endTime":"2021-12-31T16:47:00.000"},{"startTime":"2021-12-30T04:43:30.000","endTime":"2021-12-30T14:32:30.000"},{"startTime":"2021-12-29T07:17:30.000","endTime":"2021-12-29T16:13:00.000"},{"startTime":"2021-12-28T03:42:00.000","endTime":"2021-12-28T12:00:30.000"},{"startTime":"2021-12-27T06:32:00.000","endTime":"2021-12-27T11:56:30.000"},{"startTime":"2021-12-26T07:02:00.000","endTime":"2021-12-26T18:28:30.000"},{"startTime":"2021-12-25T07:55:00.000","endTime":"2021-12-25T17:20:30.000"},{"startTime":"2021-12-25T01:19:30.000","endTime":"2021-12-25T03:34:30.000"},{"startTime":"2021-12-24T06:16:30.000","endTime":"2021-12-24T20:26:00.000"},{"startTime":"2021-12-23T22:30:30.000","endTime":"2021-12-23T23:56:30.000"},{"startTime":"2021-12-23T08:13:30.000","endTime":"2021-12-23T12:28:00.000"},{"startTime":"2021-12-22T23:47:30.000","endTime":"2021-12-23T02:27:30.000"},{"startTime":"2021-12-22T07:22:30.000","endTime":"2021-12-22T12:57:30.000"},{"startTime":"2021-12-21T22:08:30.000","endTime":"2021-12-22T01:01:00.000"},{"startTime":"2021-12-21T05:43:00.000","endTime":"2021-12-21T12:57:30.000"},{"startTime":"2021-12-20T06:36:00.000","endTime":"2021-12-20T13:31:00.000"},{"startTime":"2021-12-19T05:35:30.000","endTime":"2021-12-19T16:25:00.000"},{"startTime":"2021-12-18T04:40:00.000","endTime":"2021-12-18T17:14:30.000"},{"startTime":"2021-12-17T08:06:30.000","endTime":"2021-12-17T12:59:00.000"},{"startTime":"2021-12-16T23:15:30.000","endTime":"2021-12-17T02:00:30.000"},{"startTime":"2021-12-16T05:42:30.000","endTime":"2021-12-16T12:56:30.000"},{"startTime":"2021-12-15T23:08:00.000","endTime":"2021-12-16T01:53:30.000"},{"startTime":"2021-12-15T06:55:00.000","endTime":"2021-12-15T13:58:30.000"},{"startTime":"2021-12-14T07:34:30.000","endTime":"2021-12-14T11:21:30.000"},{"startTime":"2021-12-14T02:03:30.000","endTime":"2021-12-14T04:42:30.000"},{"startTime":"2021-12-13T20:21:30.000","endTime":"2021-12-13T21:52:00.000"},{"startTime":"2021-12-13T08:12:00.000","endTime":"2021-12-13T17:15:30.000"},{"startTime":"2021-12-12T09:22:30.000","endTime":"2021-12-12T16:01:30.000"},{"startTime":"2021-12-12T01:45:30.000","endTime":"2021-12-12T04:23:30.000"},{"startTime":"2021-12-11T07:21:00.000","endTime":"2021-12-11T16:51:30.000"},{"startTime":"2021-12-11T00:51:30.000","endTime":"2021-12-11T02:52:30.000"},{"startTime":"2021-12-10T07:22:30.000","endTime":"2021-12-10T11:50:30.000"},{"startTime":"2021-12-10T00:50:00.000","endTime":"2021-12-10T01:59:30.000"},{"startTime":"2021-12-09T07:15:30.000","endTime":"2021-12-09T14:29:30.000"},{"startTime":"2021-12-08T22:44:00.000","endTime":"2021-12-09T01:24:30.000"},{"startTime":"2021-12-08T17:27:00.000","endTime":"2021-12-08T18:27:30.000"},{"startTime":"2021-12-08T07:23:00.000","endTime":"2021-12-08T11:50:30.000"},{"startTime":"2021-12-07T22:46:30.000","endTime":"2021-12-08T01:35:30.000"},{"startTime":"2021-12-07T08:21:30.000","endTime":"2021-12-07T11:59:30.000"},{"startTime":"2021-12-07T00:09:30.000","endTime":"2021-12-07T03:45:00.000"},{"startTime":"2021-12-06T07:04:30.000","endTime":"2021-12-06T12:42:30.000"},{"startTime":"2021-12-05T08:32:30.000","endTime":"2021-12-05T16:12:30.000"},{"startTime":"2021-12-04T08:35:30.000","endTime":"2021-12-04T18:11:00.000"},{"startTime":"2021-12-03T21:08:30.000","endTime":"2021-12-03T22:50:00.000"},{"startTime":"2021-12-03T05:21:30.000","endTime":"2021-12-03T11:58:30.000"},{"startTime":"2021-12-02T04:35:00.000","endTime":"2021-12-02T10:32:30.000"},{"startTime":"2021-12-01T22:06:00.000","endTime":"2021-12-02T00:40:00.000"},{"startTime":"2021-12-01T07:02:30.000","endTime":"2021-12-01T12:06:30.000"},{"startTime":"2021-12-01T01:27:30.000","endTime":"2021-12-01T05:19:30.000"},{"startTime":"2021-11-30T03:54:30.000","endTime":"2021-11-30T12:02:00.000"},{"startTime":"2021-11-29T06:25:30.000","endTime":"2021-11-29T11:44:30.000"},{"startTime":"2021-11-29T01:01:30.000","endTime":"2021-11-29T03:06:00.000"},{"startTime":"2021-11-28T09:42:30.000","endTime":"2021-11-28T15:40:30.000"},{"startTime":"2021-11-27T06:13:00.000","endTime":"2021-11-27T17:45:00.000"},{"startTime":"2021-11-26T22:17:00.000","endTime":"2021-11-27T01:38:30.000"},{"startTime":"2021-11-26T05:59:00.000","endTime":"2021-11-26T11:52:30.000"},{"startTime":"2021-11-25T04:46:30.000","endTime":"2021-11-25T12:44:00.000"},{"startTime":"2021-11-24T21:28:00.000","endTime":"2021-11-25T00:53:30.000"},{"startTime":"2021-11-24T06:37:00.000","endTime":"2021-11-24T10:56:30.000"},{"startTime":"2021-11-23T03:46:30.000","endTime":"2021-11-23T16:17:30.000"}],
-    completed: true,
-    error: null,
-  }
 }

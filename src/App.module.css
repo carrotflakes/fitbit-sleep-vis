@@ -34,10 +34,10 @@
 .signinButton {
   margin: 20px;
   display: inline-block;
-  background-color: #4285f4;
+  background-color: #0e8356;
   border: none;
   border-radius: 3px;
-  color: white;
+  color: #ffe;
   padding: 0.5em 1em;
   text-decoration: none;
   font-size: 1.5em;
@@ -45,7 +45,7 @@
 }
 
 .signinButton:hover {
-  background-color: #357ae8;
+  background-color: #09a368;
 }
 
 footer {
