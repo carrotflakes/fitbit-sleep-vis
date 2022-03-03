@@ -62,7 +62,7 @@ export const useSleeps = (accessToken: string | null, end: string): { sleeps: Sl
     }))
     .sort((a, b) => new Date(b.startTime).getTime() - new Date(a.startTime).getTime()) || [] as Sleep[];
 
-  const completed = Array.isArray(data) && data.at(-1).length === 0; // FIXME
+  const completed = Array.isArray(data) && data.at(-1)?.length === 0; // FIXME
 
   useEffect(() => {
     if (!completed && !error && data?.at(-1)) {
