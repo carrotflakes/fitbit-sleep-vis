@@ -1,6 +1,6 @@
 import { Sleep } from "../models/sleep"
 import useSWRInfinite from 'swr/infinite'
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { Fetcher } from "swr"
 
 export const useSleeps = (fetcher: Fetcher<any>, end: string): { sleeps: Sleep[]; completed: boolean, error: null | Error } => {
