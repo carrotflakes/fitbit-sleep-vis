@@ -1,24 +1,14 @@
-import { useCallback, useMemo } from 'react';
 import useSWR from 'swr';
 import styles from './App.module.css';
-import Heatmap from './components/heatmap';
-import SleepsList from './components/SleepsList';
-import { fitbitFetcher } from './fitbitFetcher';
+import SleepsView from './components/SleepsView';
+import useFitbit from './hooks/useFitbit';
 import { useSleeps } from './hooks/useSleeps';
 
 function App() {
-  const accessToken = useMemo(() =>
-    window.location.hash.match(/access_token=([^&]*)/)?.[1] ?? null
-    , []);
-  const signin = useCallback(() => {
-    const clientId = '23894W';
-    const redirectUri = encodeURIComponent(window.location.href.replace(window.location.hash, ''));
-    const scope = 'profile sleep';
-    window.location.href = `https://www.fitbit.com/oauth2/authorize?response_type=token&client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}`;
-  }, []);
+  const { signin, fetcher, loggedin } = useFitbit();
 
-  const profile = useSWR({ path: '/1/user/-/profile.json', accessToken }, fitbitFetcher);
-  const { sleeps, completed, error } = useSleeps(accessToken, new Date().toISOString().slice(0, 10));
+  const profile = useSWR({ path: '/1/user/-/profile.json' }, fetcher);
+  const { sleeps, completed, error } = useSleeps(fetcher, new Date().toISOString().slice(0, 10));
 
   return (
     <div className={styles.app}>
@@ -30,12 +20,12 @@ function App() {
       </header>
       <main>
         {
-          !accessToken && <div>
+          !loggedin && <div>
             <button className={styles.signinButton} onClick={signin}>Sign in with Fitbit</button>
           </div>
         }
         {
-          accessToken && <div>
+          loggedin && <div>
             <div>
               hello, {profile?.data?.user?.displayName ?? 'anonymous'}
               {
@@ -55,8 +45,7 @@ function App() {
                 </div>
               </>
             }
-            <Heatmap sleeps={sleeps} />
-            <SleepsList sleeps={sleeps} />
+            <SleepsView sleeps={sleeps} />
           </div>
         }
       </main>

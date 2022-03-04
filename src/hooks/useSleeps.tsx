@@ -1,9 +1,9 @@
 import { Sleep } from "../models/sleep"
 import useSWRInfinite from 'swr/infinite'
-import { fitbitFetcher } from "../fitbitFetcher"
 import { useEffect } from "react"
+import { Fetcher } from "swr"
 
-export const useSleeps = (accessToken: string | null, end: string): { sleeps: Sleep[]; completed: boolean, error: null | Error } => {
+export const useSleeps = (fetcher: Fetcher<any>, end: string): { sleeps: Sleep[]; completed: boolean, error: null | Error } => {
   // const [sleeps, setSleeps] = useState<Sleep[]>([])
   // useEffect(() => {
   //   if (sleeps.length < 100) {
@@ -47,10 +47,9 @@ export const useSleeps = (accessToken: string | null, end: string): { sleeps: Sl
 
       return {
         path: `/1.2/user/-/sleep/date/${s.toISOString().slice(0, 10)}/${e.toISOString().slice(0, 10)}.json`,
-        accessToken,
       }
     },
-    fitbitFetcher,
+    fetcher,
     {
       revalidateFirstPage: false,
     }

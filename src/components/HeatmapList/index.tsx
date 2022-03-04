@@ -1,9 +1,7 @@
 import { VFC } from "react";
 import { Sleep } from "../../models/sleep";
 
-import styles from 'index.module.css';
-
-const SleepsList: VFC<{ sleeps: Sleep[] }> = ({ sleeps: ss }) => {
+const HeatmapList: VFC<{ sleeps: Sleep[] }> = ({ sleeps: ss }) => {
   const sleeps = ss
     .map(sleep => {
       const startTime = new Date(sleep.startTime)
@@ -107,7 +105,7 @@ const SleepsList: VFC<{ sleeps: Sleep[] }> = ({ sleeps: ss }) => {
   );
 }
 
-export default SleepsList;
+export default HeatmapList;
 
 function showDate(date: Date) {
   return (
