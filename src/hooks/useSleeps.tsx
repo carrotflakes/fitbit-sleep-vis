@@ -1,6 +1,6 @@
 import { Sleep } from "../models/sleep"
 import useSWRInfinite from 'swr/infinite'
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Fetcher } from "swr"
 
 export const useSleeps = (fetcher: Fetcher<any>, end: string): { sleeps: Sleep[]; completed: boolean, error: null | Error } => {
@@ -17,10 +17,7 @@ export const useSleeps = (fetcher: Fetcher<any>, end: string): { sleeps: Sleep[]
   //         startTime.setMinutes(startTime.getMinutes() + Math.random() * 6 * 60);
   //         const endTime = new Date(startTime);
   //         endTime.setMinutes(endTime.getMinutes() + 3 * 60 + Math.random() * 6 * 60);
-  //         ss.push({
-  //           startTime: startTime.toISOString(),
-  //           endTime: endTime.toISOString(),
-  //         });
+  //         ss.push(new Sleep(startTime, endTime));
   //       }
   //       setSleeps(sleeps => [...sleeps, ...ss]);
   //     }, 1000);
@@ -58,11 +55,8 @@ export const useSleeps = (fetcher: Fetcher<any>, end: string): { sleeps: Sleep[]
   const sleeps = (data || [])
     .map(d => d?.sleep || [])
     .flat()
-    .map(s => ({
-      startTime: s.startTime,
-      endTime: s.endTime,
-    }))
-    .sort((a, b) => new Date(b.startTime).getTime() - new Date(a.startTime).getTime()) || [] as Sleep[];
+    .map(s => new Sleep(new Date(s.startTime + "Z"), new Date(s.endTime + "Z")))
+    .sort((a, b) => b.startTime.getTime() - a.startTime.getTime()) || [] as Sleep[];
 
   const completed = Array.isArray(data) && data.at(-1)?.length === 0; // FIXME
 

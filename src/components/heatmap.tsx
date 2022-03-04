@@ -7,7 +7,7 @@ const Heatmap: VFC<{ sleeps: Sleep[] }> = ({ sleeps }) => {
 
   React.useEffect(() => {
     const days = sleeps
-      .map(sleep => sleep.startTime.slice(0, 10))
+      .map(sleep => sleep.startDate)
       .filter((x, i, a) => a.indexOf(x) === i).length
     const a = new Array(24 * 60).fill(0)
     for (const sleep of sleeps) {

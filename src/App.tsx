@@ -41,7 +41,7 @@ function App() {
               <>
                 {!completed && <div>loading...</div>}
                 <div>
-                  duration: {sleeps.at(-1)?.endTime.slice(0, 10)} - {sleeps[0].startTime.slice(0, 10)}
+                  duration: {sleeps.at(-1)?.endDate} - {sleeps[0].startDate}
                 </div>
               </>
             }
