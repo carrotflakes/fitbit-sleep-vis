@@ -11,10 +11,10 @@ export class Sleep {
   }
 
   get startDate(): string {
-    return this.startTime.toISOString().slice(0, 10);
+    return `${this.startTime.getFullYear()}-${(this.startTime.getMonth() + 1 + "").padStart(2, "0")}-${(this.startTime.getDate() + "").padStart(2, "0")}`;
   }
 
   get endDate(): string {
-    return this.endTime.toISOString().slice(0, 10);
+    return `${this.endTime.getFullYear()}-${(this.endTime.getMonth() + 1 + "").padStart(2, "0")}-${(this.endTime.getDate() + "").padStart(2, "0")}`;
   }
 }
