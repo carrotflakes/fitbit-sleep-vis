@@ -11,15 +11,15 @@ const HeatmapList: VFC<{ sleeps: Sleep[], keyFn: (_: Date) => string }> = ({ sle
       {sleeps
         .map(sleep => keyFn(sleep.startTime))
         .filter((x, i, a) => a.indexOf(x) === i)
-        .map(date => (
+        .map(key => (
           <div
             className={styles.row}
-            key={date}
+            key={key}
           >
             <div className={styles.date}>
-              {date}
+              {key}
             </div>
-            <Heatmap sleeps={sleeps.filter(sleep => sleep.startDate.startsWith(date))} />
+            <Heatmap sleeps={sleeps.filter(sleep => keyFn(sleep.startTime) === key)} />
           </div>
         ))}
     </div>

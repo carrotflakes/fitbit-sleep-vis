@@ -8,6 +8,14 @@ import styles from "./index.module.css";
 
 const SleepsView: VFC<{ sleeps: Sleep[] }> = ({ sleeps }) => {
   const [mode, setMode] = useState(0);
+
+  const weeklyKeyFn = (date: Date): string => {
+    const base = new Date(sleeps[0].endDate + " ").getTime()
+    const weekDur = 1000 * 60 * 60 * 24 * 7;
+    const time = ((date.getTime() - base) / weekDur | 0) * weekDur + base
+    return showDate(new Date(time)).slice(0, 10)
+  }
+
   return (
     <div>
       <div className={styles.selector}>
@@ -17,7 +25,7 @@ const SleepsView: VFC<{ sleeps: Sleep[] }> = ({ sleeps }) => {
         <div className={mode === 3 ? styles.selected : ""} onClick={() => setMode(3)}>yearly</div>
       </div>
       {mode === 0 && <SleepsList sleeps={sleeps} />}
-      {mode === 1 && <HeatmapList sleeps={sleeps} keyFn={date => showDate(date).slice(0, 7)} />}
+      {mode === 1 && <HeatmapList sleeps={sleeps} keyFn={weeklyKeyFn} />}
       {mode === 2 && <HeatmapList sleeps={sleeps} keyFn={date => showDate(date).slice(0, 7)} />}
       {mode === 3 && <HeatmapList sleeps={sleeps} keyFn={date => showDate(date).slice(0, 4)} />}
     </div>
