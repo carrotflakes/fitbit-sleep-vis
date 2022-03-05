@@ -1,3 +1,8 @@
+.container {
+  width: 604px;
+  margin: 0 auto;
+}
+
 .row {
   height: 12px;
   margin: 1px;

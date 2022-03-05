@@ -7,7 +7,7 @@ import styles from './index.module.css';
 
 const SleepsList: VFC<{ sleeps: Sleep[] }> = ({ sleeps }) => {
   return (
-    <div>
+    <div className={styles.container}>
       {sleeps
         .flatMap(sleep => [sleep.endDate, sleep.startDate])
         .filter((x, i, a) => a.indexOf(x) === i)

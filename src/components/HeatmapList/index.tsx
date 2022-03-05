@@ -7,7 +7,7 @@ import styles from './index.module.css';
 const HeatmapList: VFC<{ sleeps: Sleep[], keyFn: (_: Date) => string }> = ({ sleeps, keyFn }) => {
   // TODO: データの端を考慮
   return (
-    <div>
+    <div className={styles.container}>
       {sleeps
         .map(sleep => keyFn(sleep.startTime))
         .filter((x, i, a) => a.indexOf(x) === i)
