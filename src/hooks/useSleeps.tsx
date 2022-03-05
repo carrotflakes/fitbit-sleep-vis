@@ -8,15 +8,15 @@ export const useSleeps = (fetcher: Fetcher<any>, end: string): { sleeps: Sleep[]
   // useEffect(() => {
   //   if (sleeps.length < 100) {
   //     setTimeout(() => {
-  //       const time = new Date(new Date().toISOString().slice(0, 10));
+  //       const time = new Date(new Date().toISOString().slice(0, 10) + " ");
   //       time.setDate(time.getDate() - sleeps.length);
   //       const ss = [] as Sleep[];
   //       for (let i = 0; i < 10; i++) {
   //         time.setDate(time.getDate() - 1);
   //         const startTime = new Date(time);
-  //         startTime.setMinutes(startTime.getMinutes() + Math.random() * 6 * 60);
+  //         startTime.setMinutes(startTime.getMinutes() + (21 + Math.random() * 3) * 60);
   //         const endTime = new Date(startTime);
-  //         endTime.setMinutes(endTime.getMinutes() + 3 * 60 + Math.random() * 6 * 60);
+  //         endTime.setMinutes(endTime.getMinutes() + (7 + Math.random() * 3) * 60);
   //         ss.push(new Sleep(startTime, endTime));
   //       }
   //       setSleeps(sleeps => [...sleeps, ...ss]);
@@ -55,7 +55,7 @@ export const useSleeps = (fetcher: Fetcher<any>, end: string): { sleeps: Sleep[]
   const sleeps = (data || [])
     .map(d => d?.sleep || [])
     .flat()
-    .map(s => new Sleep(new Date(s.startTime + "Z"), new Date(s.endTime + "Z")))
+    .map(s => new Sleep(new Date(s.startTime), new Date(s.endTime)))
     .sort((a, b) => b.startTime.getTime() - a.startTime.getTime()) || [] as Sleep[];
 
   const completed = Array.isArray(data) && data.at(-1)?.length === 0; // FIXME

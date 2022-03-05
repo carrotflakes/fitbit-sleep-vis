@@ -1,6 +1,7 @@
 import { useState, VFC } from "react";
+import { showDate } from "../../models/date";
 import { Sleep } from "../../models/sleep";
-import Heatmap from "../heatmap";
+import HeatmapList from "../HeatmapList";
 import SleepsList from "../SleepsList";
 
 import styles from "./index.module.css";
@@ -16,7 +17,9 @@ const SleepsView: VFC<{ sleeps: Sleep[] }> = ({ sleeps }) => {
         <div className={mode === 3 ? styles.selected : ""} onClick={() => setMode(3)}>yearly</div>
       </div>
       {mode === 0 && <SleepsList sleeps={sleeps} />}
-      {mode === 1 && <Heatmap sleeps={sleeps} />}
+      {mode === 1 && <HeatmapList sleeps={sleeps} keyFn={date => showDate(date).slice(0, 7)} />}
+      {mode === 2 && <HeatmapList sleeps={sleeps} keyFn={date => showDate(date).slice(0, 7)} />}
+      {mode === 3 && <HeatmapList sleeps={sleeps} keyFn={date => showDate(date).slice(0, 4)} />}
     </div>
   );
 };

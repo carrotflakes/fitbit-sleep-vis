@@ -1,104 +1,25 @@
 import { VFC } from "react";
 import { Sleep } from "../../models/sleep";
+import Heatmap from "./heatmap";
 
-const HeatmapList: VFC<{ sleeps: Sleep[] }> = ({ sleeps: ss }) => {
-  const sleeps = ss
-    .map(sleep => {
-      const startTime = new Date(sleep.startTime)
-      return {
-        dateStr: [
-          startTime.getFullYear(),
-          startTime.getMonth() + 1,
-          startTime.getDate(),
-        ].join("-"),
-        date: new Date(
-          startTime.getFullYear(),
-          startTime.getMonth(),
-          startTime.getDate()
-        ),
-        startTime,
-        endTime: new Date(sleep.endTime),
-      }
-    })
+import styles from './index.module.css';
+
+const HeatmapList: VFC<{ sleeps: Sleep[], keyFn: (_: Date) => string }> = ({ sleeps, keyFn }) => {
+  // TODO: データの端を考慮
   return (
     <div>
       {sleeps
-        .map(sleep => sleep.date.getTime())
+        .map(sleep => keyFn(sleep.startTime))
         .filter((x, i, a) => a.indexOf(x) === i)
-        .map(date => new Date(date))
         .map(date => (
           <div
-            key={date.getTime()}
-            style={{
-              height: "12px",
-              margin: "1px",
-            }}
+            className={styles.row}
+            key={date}
           >
-            <div
-              style={{
-                display: "inline-block",
-                width: "120px",
-                fontSize: "12px",
-                fontFamily: "consolas",
-                textAlign: "left",
-              }}
-            >
-              {showDate(date)}
+            <div className={styles.date}>
+              {date}
             </div>
-            <div
-              style={{
-                display: "inline-block",
-                position: "relative",
-                width: "500px",
-                height: "10px",
-                background: "#ddd",
-                borderRadius: "5px",
-                overflow: "hidden",
-              }}
-            >
-              {sleeps
-                .filter(
-                  sleep =>
-                    date.getTime() <= sleep.endTime.getTime() &&
-                    sleep.startTime.getTime() <= date.getTime() + 86400000
-                )
-                .map(sleep => {
-                  const factor = 500 / (60 * 60 * 24 * 1000)
-                  const left =
-                    (sleep.startTime.getTime() - date.getTime()) * factor - 5 // 5 is borderRadius
-                  const width =
-                    (sleep.endTime.getTime() - sleep.startTime.getTime()) *
-                    factor +
-                    5 * 2 // 5 is borderRadius
-                  return (
-                    <div
-                      key={sleep.startTime.getTime()}
-                      style={{
-                        position: "absolute",
-                        left: (left | 0) + "px",
-                        width: (width | 0) + "px",
-                        height: "10px",
-                        backgroundColor: "#e22",
-                        borderRadius: "5px",
-                      }}
-                    ></div>
-                  )
-                })}
-              {[...Array(3)].map((_, i) => (
-                <div
-                  key={i}
-                  style={{
-                    position: "absolute",
-                    top: "1px",
-                    left: (((500 / 4) * (i + 1)) | 0) + "px",
-                    width: 1 + "px",
-                    height: "8px",
-                    backgroundColor: "#000",
-                    opacity: 0.3,
-                  }}
-                ></div>
-              ))}
-            </div>
+            <Heatmap sleeps={sleeps.filter(sleep => sleep.startDate.startsWith(date))} />
           </div>
         ))}
     </div>
@@ -106,11 +27,3 @@ const HeatmapList: VFC<{ sleeps: Sleep[] }> = ({ sleeps: ss }) => {
 }
 
 export default HeatmapList;
-
-function showDate(date: Date) {
-  return (
-    date.toISOString().slice(0, 10) +
-    " " +
-    "SUN MON TUE WED THU FRI SAT".split(" ")[date.getDay()]
-  )
-}

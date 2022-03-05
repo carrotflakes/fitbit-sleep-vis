@@ -1,29 +1,29 @@
 import * as React from "react"
 import { VFC } from "react"
-import { Sleep } from "../models/sleep"
+import { Sleep } from "../../models/sleep"
 
 const Heatmap: VFC<{ sleeps: Sleep[] }> = ({ sleeps }) => {
   const canvasEl = React.useRef(null as null | HTMLCanvasElement)
 
   React.useEffect(() => {
     const days = sleeps
-      .map(sleep => sleep.startDate)
+      .flatMap(sleep => [sleep.startDate, sleep.endDate])
       .filter((x, i, a) => a.indexOf(x) === i).length
+
     const a = new Array(24 * 60).fill(0)
+    const base = new Date("2000-01-01 ").getTime()
     for (const sleep of sleeps) {
-      const startTime = new Date(sleep.startTime);
-      const endTime = new Date(sleep.endTime);
       const start =
-        startTime.getHours() * 60 + startTime.getMinutes()
-      const end = endTime.getHours() * 60 + endTime.getMinutes()
+        (sleep.startTime.getTime() - base) / (1000 * 60) | 0
+      const end = (sleep.endTime.getTime() - base) / (1000 * 60) | 0
       for (let i = start; i < end; i++) {
-        a[i] += 1
+        a[i % a.length] += 1
       }
     }
 
-    if (!canvasEl.current) return;
-    const ctx = canvasEl.current.getContext("2d")
+    const ctx = canvasEl.current?.getContext("2d")
     if (!ctx) return;
+
     ctx.fillStyle = "#eee"
     ctx.fillRect(0, 0, 500, 20)
     for (let i = 0; i < a.length; i++) {
