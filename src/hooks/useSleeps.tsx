@@ -58,7 +58,7 @@ export const useSleeps = (fetcher: Fetcher<any>, end: string): { sleeps: Sleep[]
     .map(s => new Sleep(new Date(s.startTime), new Date(s.endTime)))
     .sort((a, b) => b.startTime.getTime() - a.startTime.getTime()) || [] as Sleep[];
 
-  const completed = Array.isArray(data) && data.at(-1)?.length === 0; // FIXME
+  const completed = Array.isArray(data) && data.at(-1)?.sleep?.length === 0;
 
   useEffect(() => {
     if (!isValidating && !completed && !error && size <= (data || []).length) {

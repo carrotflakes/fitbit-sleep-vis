@@ -37,7 +37,7 @@ function App() {
               <div>
                 {error.message.startsWith('429 ') ? 'rate limit!' : error.toString()}
               </div>}
-            {sleeps.length &&
+            {!!sleeps.length &&
               <>
                 {!completed && <div>loading...</div>}
                 <div>
