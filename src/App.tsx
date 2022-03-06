@@ -1,6 +1,7 @@
 import useSWR from 'swr';
 import styles from './App.module.css';
 import About from './components/About';
+import Loading from './components/Loading';
 import SleepsView from './components/SleepsView';
 import useFitbit from './hooks/useFitbit';
 import { useSleeps } from './hooks/useSleeps';
@@ -32,8 +33,7 @@ function App() {
           </div>
         }
       </header>
-      <About />
-      <main>
+      <main className={styles.main}>
         {
           !loggedin && <div>
             <button className={styles.signinButton} onClick={signin}>Sign in with Fitbit</button>
@@ -45,7 +45,10 @@ function App() {
               <div>
                 {error.message.startsWith('429 ') ? 'rate limit!' : error.toString()}
               </div>}
-            {!!sleeps.length &&
+            {!completed && <div>
+              <Loading />
+            </div>}
+            {!!sleeps.length && false &&
               <>
                 {!completed && <div>loading...</div>}
                 <div>
@@ -57,6 +60,7 @@ function App() {
           </div>
         }
       </main>
+      <About />
     </div>
   );
 }

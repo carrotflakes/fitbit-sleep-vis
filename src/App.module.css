@@ -30,8 +30,12 @@
   margin: 0 auto;
 }
 
+.main {
+  margin-top: 10px;
+}
+
 .signinButton {
-  margin: 20px;
+  margin: 10px;
   display: inline-block;
   background-color: #0e8356;
   border: none;
@@ -45,16 +49,4 @@
 
 .signinButton:hover {
   background-color: #09a368;
-}
-
-footer {
-  padding: 20px 0;
-  text-align: center;
-  font-size: 0.8em;
-}
-
-footer > a {
-  text-decoration: none;
-  color: #000;
-  opacity: 0.5;
 }
