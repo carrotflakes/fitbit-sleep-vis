@@ -1,5 +1,6 @@
 import { VFC } from "react";
 import { Sleep } from "../../models/sleep";
+import Scale from "../Scale";
 import Heatmap from "./heatmap";
 
 import styles from './index.module.css';
@@ -9,6 +10,13 @@ const HeatmapList: VFC<{ sleeps: Sleep[], keyFn: (_: Date) => string }> = ({ sle
   return (
     <div className={styles.container}>
       <div className={styles.list}>
+        <div
+          className={styles.scaleRow}
+          key={1}
+        >
+          <div className={styles.date}></div>
+          <Scale />
+        </div>
         {sleeps
           .map(sleep => keyFn(sleep.startTime))
           .filter((x, i, a) => a.indexOf(x) === i)

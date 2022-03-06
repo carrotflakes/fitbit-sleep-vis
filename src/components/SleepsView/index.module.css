@@ -2,6 +2,10 @@
   margin: 8px 8px;
 }
 
+.selector {
+  margin: 8px;
+}
+
 .selector > div {
   display: inline-block;
   margin: 0 4px;

@@ -27,7 +27,8 @@
   border-radius: 50%;
   border: 1px solid #fff;
   background: #fff;
-  margin: 0 auto;
+  margin: 0 2px;
+  vertical-align: middle;
 }
 
 .main {

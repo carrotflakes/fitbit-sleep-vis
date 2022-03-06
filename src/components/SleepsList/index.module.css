@@ -7,6 +7,12 @@
   flex: 0 1 600px;
 }
 
+.scaleRow {
+  height: 20px;
+  margin: 1px;
+  display: flex;
+}
+
 .row {
   height: 12px;
   margin: 1px;

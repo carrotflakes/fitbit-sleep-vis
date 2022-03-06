@@ -4,15 +4,15 @@
   right: 0.6em;
   background: rgb(206, 206, 115);
   color: #fff;
-  width: 1.6em;
-  height: 1.6em;
+  width: 1.3em;
+  height: 1.3em;
   border-radius: 50%;
   display: grid;
   place-items: center;
   cursor: pointer;
   user-select: none;
   z-index: 200;
-  font-size: 24px;
+  font-size: 1em;
   font-weight: bold;
 }
 

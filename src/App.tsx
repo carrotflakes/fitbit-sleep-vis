@@ -25,11 +25,12 @@ function App() {
         {
           loggedin &&
           <div>
-            hello, {profile?.data?.user?.displayName ?? 'user.'}
+            hello,&nbsp;
             {
               profile?.data?.user?.avatar &&
               <img className={styles.avatar} src={profile.data.user.avatar} alt="" />
             }
+            {profile?.data?.user?.displayName ?? 'user.'}
             &nbsp;
             <div className={styles.signoutButton} onClick={signout}>[signout]</div>
           </div>
