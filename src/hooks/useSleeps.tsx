@@ -3,10 +3,10 @@ import useSWRInfinite from 'swr/infinite'
 import { useEffect } from "react"
 import { Fetcher } from "swr"
 
-export const useSleeps = (fetcher: Fetcher<any>, end: string): { sleeps: Sleep[]; completed: boolean, error: null | Error } => {
+export const useSleeps = (fetcher: Fetcher<any> | null, end: string): { sleeps: Sleep[]; completed: boolean, error: null | Error } => {
   // const [sleeps, setSleeps] = useState<Sleep[]>([])
   // useEffect(() => {
-  //   if (sleeps.length < 100) {
+  //   if (sleeps.length < 1000) {
   //     setTimeout(() => {
   //       const time = new Date(new Date().toISOString().slice(0, 10) + " ");
   //       time.setDate(time.getDate() - sleeps.length);
@@ -26,7 +26,7 @@ export const useSleeps = (fetcher: Fetcher<any>, end: string): { sleeps: Sleep[]
 
   // return {
   //   sleeps,
-  //   completed: sleeps.length >= 100,
+  //   completed: sleeps.length >= 1000,
   //   error: null,
   // };
 

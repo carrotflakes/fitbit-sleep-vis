@@ -1,9 +1,18 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 export const useFitbit = () => {
-  const accessToken = useMemo(() =>
-    window.location.hash.match(/access_token=([^&]*)/)?.[1] ?? null
-    , []);
+  const [accessToken, setAccessToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    let token = window.location.hash.match(/access_token=([^&]*)/)?.[1] || null;
+    if (token) {
+      window.sessionStorage.setItem("fitbitAccessToken", token);
+      window.location.hash = "";
+      setAccessToken(token);
+    } else {
+      setAccessToken(window.sessionStorage.getItem("fitbitAccessToken"));
+    }
+  }, []);
 
   const signin = useCallback(() => {
     const clientId = '23894W';
@@ -12,8 +21,8 @@ export const useFitbit = () => {
     window.location.href = `https://www.fitbit.com/oauth2/authorize?response_type=token&client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}`;
   }, []);
 
-  const fetcher = useCallback((param: { path: string; }) =>
-    accessToken && fetch('https://api.fitbit.com' + param.path, {
+  const fetcher = useMemo(() => accessToken ? (param: { path: string; }) =>
+    fetch('https://api.fitbit.com' + param.path, {
       headers: new Headers({
         'Authorization': 'Bearer ' + accessToken,
       }),
@@ -23,10 +32,16 @@ export const useFitbit = () => {
         throw new Error(res.status + ' ' + res.statusText);
       }
       return res.json();
-    }), [accessToken]);
+    }) : null, [accessToken]);
+
+  const signout = useCallback(() => {
+    setAccessToken(null);
+    window.sessionStorage.removeItem("fitbitAccessToken");
+  }, []);
 
   return {
     signin,
+    signout,
     fetcher,
     loggedin: !!accessToken,
   };

@@ -7,9 +7,9 @@ import useFitbit from './hooks/useFitbit';
 import { useSleeps } from './hooks/useSleeps';
 
 function App() {
-  const { signin, fetcher, loggedin } = useFitbit();
+  const { signin, signout, fetcher, loggedin } = useFitbit();
 
-  const profile = useSWR({ path: '/1/user/-/profile.json' }, fetcher);
+  const profile = useSWR(loggedin && { path: '/1/user/-/profile.json' }, fetcher);
   const { sleeps, completed, error } = useSleeps(fetcher, new Date().toISOString().slice(0, 10));
 
   return (
@@ -30,6 +30,8 @@ function App() {
               profile?.data?.user?.avatar &&
               <img className={styles.avatar} src={profile.data.user.avatar} alt="" />
             }
+            &nbsp;
+            <div className={styles.signoutButton} onClick={signout}>[signout]</div>
           </div>
         }
       </header>

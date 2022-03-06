@@ -1,8 +1,8 @@
 .container {
   display: inline-block;
   position: relative;
-  width: 25px;
-  height: 25px;
+  width: 21px;
+  height: 21px;
 }
 
 .container > div {
@@ -32,13 +32,13 @@
   }
 
   33% {
-    top: 20px;
-    left: 10px;
+    top: 16px;
+    left: 8px;
   }
 
   66% {
     top: 0;
-    left: 20px;
+    left: 16px;
   }
 
   100% {
