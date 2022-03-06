@@ -13,11 +13,11 @@ const SleepsView: VFC<{ sleeps: Sleep[] }> = ({ sleeps }) => {
     const base = new Date(sleeps[0].endDate + " ").getTime()
     const weekDur = 1000 * 60 * 60 * 24 * 7;
     const time = ((date.getTime() - base) / weekDur | 0) * weekDur + base
-    return showDate(new Date(time)).slice(0, 10)
+    return showDate(new Date(time))
   }
 
   return (
-    <div>
+    <div className={styles.container}>
       <div className={styles.selector}>
         <div className={mode === 0 ? styles.selected : ""} onClick={() => setMode(0)}>daily</div>
         <div className={mode === 1 ? styles.selected : ""} onClick={() => setMode(1)}>weekly</div>

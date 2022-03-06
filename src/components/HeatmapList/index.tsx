@@ -8,20 +8,24 @@ const HeatmapList: VFC<{ sleeps: Sleep[], keyFn: (_: Date) => string }> = ({ sle
   // TODO: データの端を考慮
   return (
     <div className={styles.container}>
-      {sleeps
-        .map(sleep => keyFn(sleep.startTime))
-        .filter((x, i, a) => a.indexOf(x) === i)
-        .map(key => (
-          <div
-            className={styles.row}
-            key={key}
-          >
-            <div className={styles.date}>
-              {key}
+      <div className={styles.list}>
+        {sleeps
+          .map(sleep => keyFn(sleep.startTime))
+          .filter((x, i, a) => a.indexOf(x) === i)
+          .map(key => (
+            <div
+              className={styles.row}
+              key={key}
+            >
+              <div className={styles.date}>
+                {key}
+              </div>
+              <div className={styles.bar}>
+                <Heatmap sleeps={sleeps.filter(sleep => keyFn(sleep.startTime) === key)} />
+              </div>
             </div>
-            <Heatmap sleeps={sleeps.filter(sleep => keyFn(sleep.startTime) === key)} />
-          </div>
-        ))}
+          ))}
+      </div>
     </div>
   );
 }

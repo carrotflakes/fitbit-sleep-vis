@@ -13,33 +13,42 @@ const Bar: VFC<{ date: Date, sleeps: Sleep[] }> = ({ date, sleeps }) => {
             sleep.startTime.getTime() <= date.getTime() + 86400000
         )
         .map(sleep => {
-          const factor = 500 / (60 * 60 * 24 * 1000)
+          const factor = 100 / (60 * 60 * 24 * 1000)
           const left =
-            (sleep.startTime.getTime() - date.getTime()) * factor - 5 // 5 is borderRadius
+            (sleep.startTime.getTime() - date.getTime()) * factor
           const width =
             (sleep.endTime.getTime() - sleep.startTime.getTime()) *
-            factor +
-            5 * 2 // 5 is borderRadius
+            factor
           return (
             <div
               className={styles.barItem}
               key={sleep.startTime.getTime()}
               style={{
-                left: (left | 0) + "px",
-                width: (width | 0) + "px",
+                left: (left | 0) + "%",
+                width: (width | 0) + "%",
               }}
             ></div>
           )
         })}
-      {[...Array(3)].map((_, i) => (
+      {[...Array(23)].map((_, i) => (
         <div
           key={i}
           className={styles.division}
           style={{
-            left: (((500 / 4) * (i + 1)) | 0) + "px",
+            left: (((100 / 24) * (i + 1)) | 0) + "%",
           }}
         ></div>
       ))}
+      {/* {[...Array(12)].map((_, i) => (
+        <div
+          key={i}
+          className={styles.division}
+          style={{
+            left: (((100 / 24) * (i * 2 + 1)) | 0) + "%",
+            width: (100 / 24) + "%",
+          }}
+        ></div>
+      ))} */}
     </div>)
 
 };

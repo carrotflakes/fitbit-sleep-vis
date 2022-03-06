@@ -1,25 +1,28 @@
 .container {
-  width: 604px;
-  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+}
+
+.list {
+  flex: 0 1 600px;
 }
 
 .row {
   height: 12px;
   margin: 1px;
+  display: flex;
 }
 
 .date {
-  display: inline-block;
-  width: 100px;
+  flex: 0 0 100px;
   font-size: 12px;
   font-family: "consolas";
   text-align: left;
 }
 
 .bar {
-  display: inline-block;
+  flex: 0 1 100%;
   position: relative;
-  width: 500px;
   height: 10px;
   background: #ddd;
   border-radius: 5px;
@@ -29,7 +32,7 @@
 .barItem {
   position: absolute;
   height: 10px;
-  background: #e22;
+  background: #0e8356;
   border-radius: 5px;
 }
 
@@ -38,6 +41,6 @@
   top: 1px;
   width: 1px;
   height: 8px;
-  background-color: #000;
+  background-color: #fff;
   opacity: 0.3;
 }
