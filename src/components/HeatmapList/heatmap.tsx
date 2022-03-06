@@ -29,15 +29,19 @@ const Heatmap: VFC<{ sleeps: Sleep[] }> = ({ sleeps }) => {
     if (!ctx) return;
 
     ctx.fillStyle = "#eee"
-    ctx.fillRect(0, 0, resolusion, 1)
+    ctx.fillRect(0, 0, resolusion, 5)
     for (let i = 0; i < a.length; i++) {
       // ctx.fillStyle = `rgba(255, 0, 0, ${a[i] / days})`
       ctx.fillStyle = `hsl(${240 * (1 - a[i] / days)}, 100%, 50%)`
-      ctx.fillRect((i * resolusion) / a.length, 0, resolusion / a.length, 1)
+      ctx.fillRect((i * resolusion) / a.length, 0, resolusion / a.length, 5)
+    }
+    for (let i = 0; i < 23; i++) {
+      ctx.fillStyle = "#fff"
+      ctx.fillRect((i + 1) * resolusion / 24, 1, 1, 3)
     }
   }, [sleeps])
 
-  return <canvas className={styles.heatmap} ref={canvasEl} width={resolusion} height={1} > </canvas>
+  return <canvas className={styles.heatmap} ref={canvasEl} width={resolusion} height={5} > </canvas>
 }
 
 export default Heatmap

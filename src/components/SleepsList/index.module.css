@@ -11,6 +11,9 @@
   height: 20px;
   margin: 1px;
   display: flex;
+  position: sticky;
+  top: 0px;
+  z-index: 100;
 }
 
 .row {
