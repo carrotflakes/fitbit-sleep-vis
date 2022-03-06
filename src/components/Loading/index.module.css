@@ -27,22 +27,22 @@
 
 @keyframes tri {
   0% {
-    top: 0;
+    top: 16px;
     left: 0px;
   }
 
   33% {
-    top: 16px;
+    top: 0px;
     left: 8px;
   }
 
   66% {
-    top: 0;
+    top: 16px;
     left: 16px;
   }
 
   100% {
-    top: 0;
+    top: 16px;
     left: 0px;
   }
 }
