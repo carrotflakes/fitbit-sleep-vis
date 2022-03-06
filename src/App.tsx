@@ -1,5 +1,6 @@
 import useSWR from 'swr';
 import styles from './App.module.css';
+import About from './components/About';
 import SleepsView from './components/SleepsView';
 import useFitbit from './hooks/useFitbit';
 import { useSleeps } from './hooks/useSleeps';
@@ -14,10 +15,24 @@ function App() {
     <div className={styles.app}>
       <header>
         <h1 className={styles.title}>Fitbit Sleep Vis</h1>
-        <div className={styles.subtitle}>
-          Looking back on your sleep😴
-        </div>
+        {
+          !loggedin &&
+          <div className={styles.subtitle}>
+            Looking back on your sleep😴
+          </div>
+        }
+        {
+          loggedin &&
+          <div>
+            hello, {profile?.data?.user?.displayName ?? 'user.'}
+            {
+              profile?.data?.user?.avatar &&
+              <img className={styles.avatar} src={profile.data.user.avatar} alt="" />
+            }
+          </div>
+        }
       </header>
+      <About />
       <main>
         {
           !loggedin && <div>
@@ -26,13 +41,6 @@ function App() {
         }
         {
           loggedin && <div>
-            <div>
-              hello, {profile?.data?.user?.displayName ?? 'anonymous'}
-              {
-                profile?.data?.user?.avatar &&
-                <img className={styles.avatar} src={profile.data.user.avatar} alt="" />
-              }
-            </div>
             {error &&
               <div>
                 {error.message.startsWith('429 ') ? 'rate limit!' : error.toString()}
@@ -49,9 +57,6 @@ function App() {
           </div>
         }
       </main>
-      <footer>
-        <a href="https://twitter.com/carrotflakes">@carrotflakes</a>
-      </footer>
     </div>
   );
 }

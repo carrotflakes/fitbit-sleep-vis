@@ -1,0 +1,39 @@
+.icon {
+  position: absolute;
+  top: 0.6em;
+  right: 0.6em;
+  background: rgb(206, 206, 115);
+  color: #fff;
+  width: 1.6em;
+  height: 1.6em;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  user-select: none;
+  z-index: 200;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.content {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgb(243, 243, 199);
+  width: 100%;
+  z-index: 100;
+  text-align: left;
+  padding: 20px;
+  color: rgb(92, 92, 59);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.contentFoot > div {
+  display: inline;
+}
+
+.contentFoot > div:nth-child(n+2) {
+  margin-left: 20px;
+}
