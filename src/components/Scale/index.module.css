@@ -19,6 +19,12 @@
   opacity: 0.5;
 }
 
+@media (max-width: 480px) {
+  .memory:nth-child(2n) {
+    opacity: 0;
+  }
+}
+
 .division {
   position: absolute;
   top: 1px;
