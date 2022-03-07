@@ -9,13 +9,12 @@
 
 .rulerRow {
   height: 20px;
-  padding: 1px;
+  padding: 3px 1px 1px 1px;
   display: flex;
   position: sticky;
   top: 0px;
   z-index: 100;
-  background: rgba(255, 255, 238, 0.8);
-  backdrop-filter: blur(20px);
+  background: #ffe;
 }
 
 .row {
