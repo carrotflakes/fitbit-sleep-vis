@@ -1,7 +1,7 @@
 import { VFC } from "react";
 import { showDate } from "../../models/date";
 import { Sleep } from "../../models/sleep";
-import Scale from "../Scale";
+import Ruler from "../Ruler";
 import Bar from "./bar";
 
 import styles from './index.module.css';
@@ -11,11 +11,11 @@ const SleepsList: VFC<{ sleeps: Sleep[] }> = ({ sleeps }) => {
     <div className={styles.container}>
       <div className={styles.list}>
         <div
-          className={styles.scaleRow}
+          className={styles.rulerRow}
           key={1}
         >
           <div className={styles.date}></div>
-          <Scale />
+          <Ruler />
         </div>
         {sleeps
           .flatMap(sleep => [sleep.endDate, sleep.startDate])

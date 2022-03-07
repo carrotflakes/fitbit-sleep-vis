@@ -5,22 +5,21 @@
   height: 18px;
   overflow: hidden;
   user-select: none;
-  background: rgba(255, 255, 238, 0.8);
-  backdrop-filter: blur(20px);
 }
 
-.memory {
+.scale {
   flex: 1 1 0;
   font-size: 12px;
   font-family: "consolas";
+  width: 0;
 }
 
-.memory:nth-child(2n) {
+.scale:nth-child(2n) {
   opacity: 0.5;
 }
 
 @media (max-width: 480px) {
-  .memory:nth-child(2n) {
+  .scale:nth-child(2n) {
     opacity: 0;
   }
 }

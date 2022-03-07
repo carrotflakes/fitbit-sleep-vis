@@ -7,12 +7,14 @@
   flex: 0 1 600px;
 }
 
-.scaleRow {
+.rulerRow {
   height: 20px;
-  margin: 1px;
+  padding: 1px;
   display: flex;
   position: sticky;
   top: 0px;
+  background: rgba(255, 255, 238, 0.8);
+  backdrop-filter: blur(20px);
 }
 
 .row {
