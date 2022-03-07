@@ -8,7 +8,7 @@ export const useSleeps = (fetcher: Fetcher<any> | null, end: string): { sleeps: 
   // useEffect(() => {
   //   if (sleeps.length < 1000) {
   //     setTimeout(() => {
-  //       const time = new Date(new Date().toISOString().slice(0, 10) + " ");
+  //       const time = new Date(new Date().toISOString().slice(0, 10).replace(/-/g, "/"));
   //       time.setDate(time.getDate() - sleeps.length);
   //       const ss = [] as Sleep[];
   //       for (let i = 0; i < 10; i++) {

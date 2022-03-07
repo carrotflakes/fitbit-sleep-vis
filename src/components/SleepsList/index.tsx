@@ -20,7 +20,7 @@ const SleepsList: VFC<{ sleeps: Sleep[] }> = ({ sleeps }) => {
         {sleeps
           .flatMap(sleep => [sleep.endDate, sleep.startDate])
           .filter((x, i, a) => a.indexOf(x) === i)
-          .map(date => new Date(date + " "))
+          .map(date => new Date(date.replace(/-/g, "/")))
           .map(date => (
             <div
               className={styles.row}

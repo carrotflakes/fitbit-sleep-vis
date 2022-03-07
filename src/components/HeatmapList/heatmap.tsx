@@ -15,7 +15,7 @@ const Heatmap: VFC<{ sleeps: Sleep[] }> = ({ sleeps }) => {
       .filter((x, i, a) => a.indexOf(x) === i).length
 
     const a = new Array(resolusion).fill(0)
-    const base = new Date("2000-01-01 ").getTime()
+    const base = new Date("2000/01/01").getTime()
     for (const sleep of sleeps) {
       const start =
         (sleep.startTime.getTime() - base) * resolusion / (1000 * 60 * 60 * 24) | 0

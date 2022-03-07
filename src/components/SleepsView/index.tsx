@@ -10,7 +10,7 @@ const SleepsView: VFC<{ sleeps: Sleep[] }> = ({ sleeps }) => {
   const [mode, setMode] = useState(0);
 
   const weeklyKeyFn = (date: Date): string => {
-    const base = new Date(sleeps[0].endDate + " ").getTime()
+    const base = new Date(sleeps[0].endDate.replace(/-/g, "/")).getTime()
     const weekDur = 1000 * 60 * 60 * 24 * 7;
     const time = ((date.getTime() - base) / weekDur | 0) * weekDur + base
     return showDate(new Date(time))
