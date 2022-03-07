@@ -25,7 +25,7 @@ function App() {
         {
           loggedin &&
           <div>
-            hello,&nbsp;
+            Hello,&nbsp;
             {
               profile?.data?.user?.avatar &&
               <img className={styles.avatar} src={profile.data.user.avatar} alt="" />

@@ -19,10 +19,10 @@ const SleepsView: VFC<{ sleeps: Sleep[] }> = ({ sleeps }) => {
   return (
     <div className={styles.container}>
       <div className={styles.selector}>
-        <div className={mode === 0 ? styles.selected : ""} onClick={() => setMode(0)}>daily</div>
-        <div className={mode === 1 ? styles.selected : ""} onClick={() => setMode(1)}>weekly</div>
-        <div className={mode === 2 ? styles.selected : ""} onClick={() => setMode(2)}>monthly</div>
-        <div className={mode === 3 ? styles.selected : ""} onClick={() => setMode(3)}>yearly</div>
+        <div className={mode === 0 ? styles.selected : ""} onClick={() => setMode(0)}>Daily</div>
+        <div className={mode === 1 ? styles.selected : ""} onClick={() => setMode(1)}>Weekly</div>
+        <div className={mode === 2 ? styles.selected : ""} onClick={() => setMode(2)}>Monthly</div>
+        <div className={mode === 3 ? styles.selected : ""} onClick={() => setMode(3)}>Yearly</div>
       </div>
       {mode === 0 && <SleepsList sleeps={sleeps} />}
       {mode === 1 && <HeatmapList sleeps={sleeps} keyFn={weeklyKeyFn} />}
