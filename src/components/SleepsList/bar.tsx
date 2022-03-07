@@ -9,7 +9,7 @@ const Bar: VFC<{ date: Date, sleeps: Sleep[] }> = ({ date, sleeps }) => {
       {sleeps
         .filter(
           sleep =>
-            date.getTime() - 86400000 <= sleep.endTime.getTime() &&
+            date.getTime() <= sleep.endTime.getTime() &&
             sleep.startTime.getTime() <= date.getTime() + 86400000
         )
         .map(sleep => {

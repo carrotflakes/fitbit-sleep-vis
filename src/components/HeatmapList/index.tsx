@@ -7,6 +7,16 @@ import styles from './index.module.css';
 
 const HeatmapList: VFC<{ sleeps: Sleep[], keyFn: (_: Date) => string }> = ({ sleeps, keyFn }) => {
   // TODO: データの端を考慮
+  const groups: Sleep[][] = [[]];
+  let key = keyFn(sleeps[0].startTime);
+  for (const sleep of sleeps) {
+    if (key !== keyFn(sleep.startTime)) {
+      groups.push([]);
+      key = keyFn(sleep.startTime);
+    }
+    groups[groups.length - 1].push(sleep);
+  }
+  
   return (
     <div className={styles.container}>
       <div className={styles.list}>
@@ -17,10 +27,9 @@ const HeatmapList: VFC<{ sleeps: Sleep[], keyFn: (_: Date) => string }> = ({ sle
           <div className={styles.date}></div>
           <Ruler />
         </div>
-        {sleeps
-          .map(sleep => keyFn(sleep.startTime))
-          .filter((x, i, a) => a.indexOf(x) === i)
-          .map(key => (
+        {groups.map(sleeps => {
+          const key = keyFn(sleeps[0].startTime);
+          return (
             <div
               className={styles.row}
               key={key}
@@ -29,10 +38,12 @@ const HeatmapList: VFC<{ sleeps: Sleep[], keyFn: (_: Date) => string }> = ({ sle
                 {key}
               </div>
               <div className={styles.bar}>
-                <Heatmap sleeps={sleeps.filter(sleep => keyFn(sleep.startTime) === key)} />
+                <Heatmap sleeps={sleeps} />
               </div>
             </div>
-          ))}
+          )
+        })
+        }
       </div>
     </div>
   );
