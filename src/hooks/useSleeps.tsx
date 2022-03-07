@@ -61,13 +61,13 @@ export const useSleeps = (fetcher: Fetcher<any> | null, end: string): { sleeps: 
   const completed = Array.isArray(data) && data[data.length - 1]?.sleep?.length === 0;
 
   useEffect(() => {
-    if (!isValidating && !completed && !error && size <= (data || []).length) {
+    if (fetcher && !isValidating && !completed && !error && size <= (data || []).length) {
       setTimeout(() => {
         console.log("next")
         setSize(size + 1);
       }, 10);
     }
-  }, [isValidating, completed, error, data, size, setSize]);
+  }, [fetcher, isValidating, completed, error, data, size, setSize]);
 
   return {
     sleeps,
