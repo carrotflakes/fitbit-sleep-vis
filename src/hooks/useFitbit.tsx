@@ -16,7 +16,7 @@ export const useFitbit = () => {
 
   const signin = useCallback(() => {
     const clientId = '23894W';
-    const redirectUri = encodeURIComponent(window.location.href.replace(window.location.hash, ''));
+    const redirectUri = encodeURIComponent(window.location.href.replace(/#.*/, ''));
     const scope = 'profile sleep';
     window.location.href = `https://www.fitbit.com/oauth2/authorize?response_type=token&client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}`;
   }, []);
