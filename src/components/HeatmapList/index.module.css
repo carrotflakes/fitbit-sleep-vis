@@ -26,6 +26,7 @@
   font-size: 12px;
   font-family: "consolas";
   text-align: left;
+  white-space: nowrap;
 }
 
 .bar {
