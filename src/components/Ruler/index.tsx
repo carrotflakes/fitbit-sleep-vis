@@ -6,7 +6,7 @@ const Ruler: VFC = () => {
     <div className={styles.bar}>
       {[...Array(24)].map((_, i) => (
         <div key={i} className={styles.scale}>
-          {i + 1}
+          {i}
         </div>
       ))}
       {[...Array(23)].map((_, i) => (
