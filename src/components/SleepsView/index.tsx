@@ -8,6 +8,10 @@ import styles from "./index.module.css";
 
 const SleepsView: VFC<{ sleeps: Sleep[] }> = ({ sleeps }) => {
   const [mode, setMode] = useState(0);
+  
+  if (sleeps.length === 0) {
+    return <div>loading</div>
+  }
 
   const weeklyKeyFn = (date: Date): string => {
     const base = new Date(sleeps[0].endDate.replace(/-/g, "/")).getTime()
