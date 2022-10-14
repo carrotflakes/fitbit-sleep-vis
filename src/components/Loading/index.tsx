@@ -1,8 +1,6 @@
-import { VFC } from "react";
-
 import styles from './index.module.css';
 
-const Loading: VFC = () => {
+const Loading = () => {
   return (
     <div className={styles.container}>
       <div></div>

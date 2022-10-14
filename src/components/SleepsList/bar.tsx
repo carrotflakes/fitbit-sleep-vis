@@ -1,9 +1,9 @@
-import { VFC } from "react";
+import { FC } from "react";
 import { Sleep } from "../../models/sleep";
 
 import styles from './index.module.css';
 
-const Bar: VFC<{ date: Date, sleeps: Sleep[] }> = ({ date, sleeps }) => {
+const Bar: FC<{ date: Date, sleeps: Sleep[] }> = ({ date, sleeps }) => {
   return (
     <div className={styles.bar}>
       {sleeps

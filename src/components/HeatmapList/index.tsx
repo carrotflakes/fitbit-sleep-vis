@@ -1,11 +1,11 @@
-import { VFC } from "react";
+import { FC } from "react";
 import { Sleep } from "../../models/sleep";
 import Ruler from "../Ruler";
 import Heatmap from "./heatmap";
 
 import styles from './index.module.css';
 
-const HeatmapList: VFC<{ sleeps: Sleep[], keyFn: (_: Date) => string }> = ({ sleeps, keyFn }) => {
+const HeatmapList: FC<{ sleeps: Sleep[], keyFn: (_: Date) => string }> = ({ sleeps, keyFn }) => {
   // TODO: データの端を考慮
   const groups: Sleep[][] = [[]];
   let key = keyFn(sleeps[0].startTime);

@@ -1,4 +1,4 @@
-import { VFC } from "react";
+import { FC } from "react";
 import { showDate } from "../../models/date";
 import { Sleep } from "../../models/sleep";
 import Ruler from "../Ruler";
@@ -6,7 +6,7 @@ import Bar from "./bar";
 
 import styles from './index.module.css';
 
-const SleepsList: VFC<{ sleeps: Sleep[] }> = ({ sleeps }) => {
+const SleepsList: FC<{ sleeps: Sleep[] }> = ({ sleeps }) => {
   return (
     <div className={styles.container}>
       <div className={styles.list}>

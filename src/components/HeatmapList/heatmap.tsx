@@ -1,10 +1,10 @@
 import * as React from "react"
-import { VFC } from "react"
+import { FC } from "react"
 import { Sleep } from "../../models/sleep"
 
 import styles from './index.module.css';
 
-const Heatmap: VFC<{ sleeps: Sleep[] }> = ({ sleeps }) => {
+const Heatmap: FC<{ sleeps: Sleep[] }> = ({ sleeps }) => {
   const canvasEl = React.useRef(null as null | HTMLCanvasElement)
   
   const resolusion = 500;

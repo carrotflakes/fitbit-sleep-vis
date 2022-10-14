@@ -1,9 +1,9 @@
-import { useState, VFC } from "react";
+import { useState } from "react";
 import githubLogo from "./github_logo.svg";
 
 import styles from './index.module.css';
 
-const About: VFC = () => {
+const About = () => {
   const [open, setOpen] = useState(false)
   return (
     <div>

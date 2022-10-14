@@ -1,7 +1,6 @@
-import { VFC } from "react";
 import styles from './index.module.css';
 
-const Ruler: VFC = () => {
+const Ruler = () => {
   return (
     <div className={styles.bar}>
       {[...Array(24)].map((_, i) => (

@@ -1,4 +1,4 @@
-import { useState, VFC } from "react";
+import { useState, FC } from "react";
 import { showDate } from "../../models/date";
 import { Sleep } from "../../models/sleep";
 import HeatmapList from "../HeatmapList";
@@ -6,7 +6,7 @@ import SleepsList from "../SleepsList";
 
 import styles from "./index.module.css";
 
-const SleepsView: VFC<{ sleeps: Sleep[] }> = ({ sleeps }) => {
+const SleepsView: FC<{ sleeps: Sleep[] }> = ({ sleeps }) => {
   const [mode, setMode] = useState(0);
   
   if (sleeps.length === 0) {
