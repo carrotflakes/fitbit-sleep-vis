@@ -40,6 +40,7 @@ export const useSleeps = (fetcher: Fetcher<any> | null, end: string): { sleeps: 
       const e = new Date(end);
       e.setDate(e.getDate() - pageIndex * 101);
       const s = new Date(e);
+      s.setUTCHours(1); // Add 1 hour to avoid daylight saving time issue
       s.setDate(s.getDate() - 100);
 
       return {
