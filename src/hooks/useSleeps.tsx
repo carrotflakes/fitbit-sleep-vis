@@ -30,6 +30,8 @@ export const useSleeps = (fetcher: Fetcher<any> | null, end: string): { sleeps: 
   //   error: null,
   // };
 
+  const dateRange = +(new URLSearchParams(window.location.search).get("dateRange") ?? 100)
+
   const { data, error, isValidating, size, setSize } = useSWRInfinite(
     (pageIndex, previousPageData) => {
       if (previousPageData && previousPageData.sleep?.length === 0) {
@@ -38,9 +40,9 @@ export const useSleeps = (fetcher: Fetcher<any> | null, end: string): { sleeps: 
       }
 
       const e = new Date(end);
-      e.setDate(e.getDate() - pageIndex * 101);
+      e.setDate(e.getDate() - pageIndex * (dateRange + 1));
       const s = new Date(e);
-      s.setDate(s.getDate() - 100);
+      s.setDate(s.getDate() - dateRange);
 
       return {
         path: `/1.2/user/-/sleep/date/${s.toISOString().slice(0, 10)}/${e.toISOString().slice(0, 10)}.json`,
