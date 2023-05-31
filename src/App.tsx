@@ -11,6 +11,7 @@ function App() {
 
   const profile = useSWR(loggedin && { path: '/1/user/-/profile.json' }, fetcher);
   const { sleeps, completed, error } = useSleeps(fetcher, new Date().toISOString().slice(0, 10));
+  // const { sleeps, completed, error } = useSleepsDummy();
 
   return (
     <div className={styles.app}>
