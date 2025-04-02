@@ -12,10 +12,10 @@ export const useSleeps = (fetcher: Fetcher<any> | null, end: string): { sleeps: 
       }
 
       const e = new Date(end);
-      e.setDate(e.getDate() - pageIndex * 101);
+      e.setDate(e.getDate() - pageIndex * 100);
       const s = new Date(e);
       s.setUTCHours(1); // Add 1 hour to avoid daylight saving time issue
-      s.setDate(s.getDate() - 100);
+      s.setDate(s.getDate() - 99);
 
       return {
         path: `/1.2/user/-/sleep/date/${s.toISOString().slice(0, 10)}/${e.toISOString().slice(0, 10)}.json`,
