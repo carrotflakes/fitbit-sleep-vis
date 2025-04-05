@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import { Sleep } from "../../models/sleep";
 import Ruler from "../Ruler";
 import Heatmap from "./heatmap";
@@ -6,16 +6,20 @@ import Heatmap from "./heatmap";
 import styles from './index.module.css';
 
 const HeatmapList: FC<{ sleeps: Sleep[], keyFn: (_: Date) => string }> = ({ sleeps, keyFn }) => {
-  // TODO: データの端を考慮
-  const groups: Sleep[][] = [[]];
-  let key = keyFn(sleeps[0].startTime);
-  for (const sleep of sleeps) {
-    if (key !== keyFn(sleep.startTime)) {
-      groups.push([]);
-      key = keyFn(sleep.startTime);
+  const groups: Sleep[][] = useMemo(() => {
+    const groups = new Map<string, Sleep[]>();
+    for (const sleep of sleeps) {
+      for (const s of sleep.splitByDate()) {
+        const key = keyFn(s.startTime);
+        if (!groups.has(key)) {
+          groups.set(key, []);
+        }
+        groups.get(key)?.push(s);
+      }
     }
-    groups[groups.length - 1].push(sleep);
-  }
+
+    return Array.from(groups.keys()).sort().reverse().map(key => groups.get(key) ?? []);
+  }, [sleeps, keyFn]);
   
   return (
     <div className={styles.container}>

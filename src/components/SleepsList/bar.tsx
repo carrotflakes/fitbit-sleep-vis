@@ -3,6 +3,8 @@ import { Sleep } from "../../models/sleep";
 
 import styles from './index.module.css';
 
+const ONE_DAY_MS = 1000 * 60 * 60 * 24;
+
 const Bar: FC<{ date: Date, sleeps: Sleep[] }> = ({ date, sleeps }) => {
   return (
     <div className={styles.bar}>
@@ -10,10 +12,10 @@ const Bar: FC<{ date: Date, sleeps: Sleep[] }> = ({ date, sleeps }) => {
         .filter(
           sleep =>
             date.getTime() <= sleep.endTime.getTime() &&
-            sleep.startTime.getTime() <= date.getTime() + 86400000
+            sleep.startTime.getTime() <= date.getTime() + ONE_DAY_MS
         )
         .map(sleep => {
-          const factor = 100 / (60 * 60 * 24 * 1000)
+          const factor = 100 / ONE_DAY_MS
           const left =
             (sleep.startTime.getTime() - date.getTime()) * factor
           const width =

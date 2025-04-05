@@ -1,3 +1,7 @@
+import { showDate } from "./date";
+
+const ONE_DAY_MS = 1000 * 60 * 60 * 24;
+
 export class Sleep {
   public startTime: Date;
   public endTime: Date;
@@ -10,11 +14,44 @@ export class Sleep {
     this.endTime = endTime;
   }
 
-  get startDate(): string {
-    return `${this.startTime.getFullYear()}-${(this.startTime.getMonth() + 1 + "").padStart(2, "0")}-${(this.startTime.getDate() + "").padStart(2, "0")}`;
+  get startDateStr(): string {
+    return showDate(this.startTime);
   }
 
-  get endDate(): string {
-    return `${this.endTime.getFullYear()}-${(this.endTime.getMonth() + 1 + "").padStart(2, "0")}-${(this.endTime.getDate() + "").padStart(2, "0")}`;
+  get endDateStr(): string {
+    return showDate(this.endTime);
+  }
+
+  hitDates() {
+    const base = new Date("2000/01/01").getTime();
+    const dates: Date[] = [];
+
+    let start = ((this.startTime.getTime() - base) / ONE_DAY_MS | 0) * ONE_DAY_MS + base;
+    const end = this.endTime.getTime();
+
+    while (start < end) {
+      dates.push(new Date(start));
+      start += ONE_DAY_MS;
+    }
+
+    return dates;
+  }
+
+  splitByDate() {
+    const base = new Date("2000/01/01").getTime();
+    const sleeps: Sleep[] = [];
+
+    let start = this.startTime.getTime();
+    const end = this.endTime.getTime();
+
+    while (((start - base) / ONE_DAY_MS | 0) < ((end - base) / ONE_DAY_MS | 0)) {
+      const newStart = ((start - base) / ONE_DAY_MS + 1 | 0) * ONE_DAY_MS + base;
+      sleeps.push(new Sleep(new Date(start), new Date(newStart)));
+      start = newStart;
+    }
+
+    sleeps.push(new Sleep(new Date(start), this.endTime));
+
+    return sleeps;
   }
 }

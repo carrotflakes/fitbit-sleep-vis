@@ -49,14 +49,14 @@ function App() {
               <div>
                 {error.message.startsWith('429 ') ? 'rate limit!' : error.toString()}
               </div>}
-            {!completed && <div>
+            {(!completed && !error) && <div>
               <Loading />
             </div>}
             {!!sleeps.length && false &&
               <>
                 {!completed && <div>loading...</div>}
                 <div>
-                  duration: {sleeps[sleeps.length - 1]?.endDate} - {sleeps[0].startDate}
+                  duration: {sleeps[sleeps.length - 1]?.endDateStr} - {sleeps[0].startDateStr}
                 </div>
               </>
             }

@@ -1,5 +1,5 @@
-import { FC } from "react";
-import { showDate } from "../../models/date";
+import { FC, useMemo } from "react";
+import { showDateWithWeek } from "../../models/date";
 import { Sleep } from "../../models/sleep";
 import Ruler from "../Ruler";
 import Bar from "./bar";
@@ -7,6 +7,15 @@ import Bar from "./bar";
 import styles from './index.module.css';
 
 const SleepsList: FC<{ sleeps: Sleep[] }> = ({ sleeps }) => {
+  const dates = useMemo(() =>
+    sleeps
+      .flatMap(sleep => sleep.hitDates())
+      .map(date => date.getTime())
+      .filter((x, i, a) => a.indexOf(x) === i)
+      .sort((a, b) => b - a)
+      .map(date => new Date(date)),
+  [sleeps]);
+
   return (
     <div className={styles.container}>
       <div className={styles.list}>
@@ -17,17 +26,14 @@ const SleepsList: FC<{ sleeps: Sleep[] }> = ({ sleeps }) => {
           <div className={styles.date}></div>
           <Ruler />
         </div>
-        {sleeps
-          .flatMap(sleep => [sleep.endDate, sleep.startDate])
-          .filter((x, i, a) => a.indexOf(x) === i)
-          .map(date => new Date(date.replace(/-/g, "/")))
+        {dates
           .map(date => (
             <div
               className={styles.row}
               key={date.getTime()}
             >
               <div className={styles.date}>
-                {showDate(date)}
+                {showDateWithWeek(date)}
               </div>
               <Bar date={date} sleeps={sleeps} />
             </div>

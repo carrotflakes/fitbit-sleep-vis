@@ -3,7 +3,7 @@ import useSWRInfinite from 'swr/infinite'
 import { useEffect, useState } from "react"
 import { Fetcher } from "swr"
 
-export const useSleeps = (fetcher: Fetcher<any> | null, end: string): { sleeps: Sleep[]; completed: boolean, error: null | Error } => {
+export const useSleeps = (fetcher: Fetcher<any, {path: string}> | null, end: string): { sleeps: Sleep[]; completed: boolean, error: null | Error } => {
   const { data, error, isValidating, size, setSize } = useSWRInfinite(
     (pageIndex, previousPageData) => {
       if (previousPageData && previousPageData.sleep?.length === 0) {
@@ -65,6 +65,35 @@ export const useSleepsDummy = (): { sleeps: Sleep[]; completed: boolean, error: 
           startTime.setMinutes(startTime.getMinutes() + (21 + Math.random() * 3) * 60);
           const endTime = new Date(startTime);
           endTime.setMinutes(endTime.getMinutes() + (7 + Math.random() * 3) * 60);
+          ss.push(new Sleep(startTime, endTime));
+        }
+        setSleeps(sleeps => [...sleeps, ...ss]);
+      }, 1000);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [sleeps, setSleeps]);
+
+  return {
+    sleeps,
+    completed: sleeps.length >= 1000,
+    error: null,
+  };
+}
+
+export const useSleepsDummy2 = (): { sleeps: Sleep[]; completed: boolean, error: null | Error } => {
+  const [sleeps, setSleeps] = useState<Sleep[]>([])
+  useEffect(() => {
+    if (sleeps.length < 1000) {
+      const timeoutId = setTimeout(() => {
+        const time = new Date(new Date().toISOString().slice(0, 10).replace(/-/g, "/"));
+        time.setDate(time.getDate() - sleeps.length * 5);
+        const ss = [] as Sleep[];
+        for (let i = 0; i < 10; i++) {
+          time.setDate(time.getDate() - 5);
+          const startTime = new Date(time);
+          startTime.setMinutes(startTime.getMinutes() + (21 + Math.random() * 20) * 60);
+          const endTime = new Date(startTime);
+          endTime.setMinutes(endTime.getMinutes() + (30 + Math.random() * 3) * 60);
           ss.push(new Sleep(startTime, endTime));
         }
         setSleeps(sleeps => [...sleeps, ...ss]);
