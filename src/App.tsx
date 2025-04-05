@@ -56,7 +56,7 @@ function App() {
               <>
                 {!completed && <div>loading...</div>}
                 <div>
-                  duration: {sleeps[sleeps.length - 1]?.endDate} - {sleeps[0].startDate}
+                  duration: {sleeps[sleeps.length - 1]?.endDateStr} - {sleeps[0].startDateStr}
                 </div>
               </>
             }
