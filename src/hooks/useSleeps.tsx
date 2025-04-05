@@ -3,7 +3,7 @@ import useSWRInfinite from 'swr/infinite'
 import { useEffect, useState } from "react"
 import { Fetcher } from "swr"
 
-export const useSleeps = (fetcher: Fetcher<any> | null, end: string): { sleeps: Sleep[]; completed: boolean, error: null | Error } => {
+export const useSleeps = (fetcher: Fetcher<any, {path: string}> | null, end: string): { sleeps: Sleep[]; completed: boolean, error: null | Error } => {
   const { data, error, isValidating, size, setSize } = useSWRInfinite(
     (pageIndex, previousPageData) => {
       if (previousPageData && previousPageData.sleep?.length === 0) {
