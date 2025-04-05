@@ -7,16 +7,18 @@ import styles from './index.module.css';
 
 const HeatmapList: FC<{ sleeps: Sleep[], keyFn: (_: Date) => string }> = ({ sleeps, keyFn }) => {
   const groups: Sleep[][] = useMemo(() => {
-    const result: Sleep[][] = [[]];
-    let key = keyFn(sleeps[0].startTime);
+    const groups = new Map<string, Sleep[]>();
     for (const sleep of sleeps) {
-      if (key !== keyFn(sleep.startTime)) {
-        result.push([]);
-        key = keyFn(sleep.startTime);
+      for (const s of sleep.splitByDate()) {
+        const key = keyFn(s.startTime);
+        if (!groups.has(key)) {
+          groups.set(key, []);
+        }
+        groups.get(key)?.push(s);
       }
-      result[result.length - 1].push(sleep);
     }
-    return result;
+
+    return Array.from(groups.keys()).sort().reverse().map(key => groups.get(key) ?? []);
   }, [sleeps, keyFn]);
   
   return (

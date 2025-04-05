@@ -9,9 +9,11 @@ import styles from './index.module.css';
 const SleepsList: FC<{ sleeps: Sleep[] }> = ({ sleeps }) => {
   const dates = useMemo(() =>
     sleeps
-      .flatMap(sleep => [sleep.endDateStr, sleep.startDateStr])
+      .flatMap(sleep => sleep.hitDates())
+      .map(date => date.getTime())
       .filter((x, i, a) => a.indexOf(x) === i)
-      .map(date => new Date(date.replace(/-/g, "/"))),
+      .sort((a, b) => b - a)
+      .map(date => new Date(date)),
   [sleeps]);
 
   return (

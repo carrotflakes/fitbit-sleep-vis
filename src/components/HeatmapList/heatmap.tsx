@@ -12,9 +12,7 @@ const Heatmap: FC<{ sleeps: Sleep[] }> = ({ sleeps }) => {
   const resolusion = 500;
 
   React.useEffect(() => {
-    const days = sleeps
-      .flatMap(sleep => [sleep.startDateStr, sleep.endDateStr])
-      .filter((x, i, a) => a.indexOf(x) === i).length
+    const days = Math.ceil((Math.max(...sleeps.map(s => s.endTime.getTime())) - Math.min(...sleeps.map(s => s.startTime.getTime()))) / ONE_DAY_MS)
 
     const a = new Array(resolusion).fill(0)
     const base = new Date("2000/01/01").getTime()
