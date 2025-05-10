@@ -4,6 +4,8 @@ import { useEffect, useState } from "react"
 import { Fetcher } from "swr"
 
 export const useSleeps = (fetcher: Fetcher<any, {path: string}> | null, end: string): { sleeps: Sleep[]; completed: boolean, error: null | Error } => {
+  const [apiVersion, setApiVersion] = useState<"1.2" | "1">("1.2");
+
   const { data, error, isValidating, size, setSize } = useSWRInfinite(
     (pageIndex, previousPageData) => {
       if (previousPageData && previousPageData.sleep?.length === 0) {
@@ -18,7 +20,7 @@ export const useSleeps = (fetcher: Fetcher<any, {path: string}> | null, end: str
       s.setDate(s.getDate() - 99);
 
       return {
-        path: `/1.2/user/-/sleep/date/${s.toISOString().slice(0, 10)}/${e.toISOString().slice(0, 10)}.json`,
+        path: `/${apiVersion}/user/-/sleep/date/${s.toISOString().slice(0, 10)}/${e.toISOString().slice(0, 10)}.json`,
       }
     },
     fetcher,
@@ -43,6 +45,13 @@ export const useSleeps = (fetcher: Fetcher<any, {path: string}> | null, end: str
       }, 10);
     }
   }, [fetcher, isValidating, completed, error, data, size, setSize]);
+
+  useEffect(() => {
+    if (error && apiVersion === "1.2") {
+      console.log("switch to 1")
+      setApiVersion("1");
+    }
+  }, [error, apiVersion]);
 
   return {
     sleeps,
