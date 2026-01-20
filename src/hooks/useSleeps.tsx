@@ -3,24 +3,39 @@ import useSWRInfinite from 'swr/infinite'
 import { useEffect, useState } from "react"
 import { Fetcher } from "swr"
 
+type SleepLogListResponse = {
+  sleep?: Array<{ startTime: string; endTime: string }>;
+  pagination?: {
+    next?: string;
+  };
+};
+
 export const useSleeps = (fetcher: Fetcher<any, {path: string}> | null, end: string): { sleeps: Sleep[]; completed: boolean, error: null | Error } => {
   const [apiVersion, setApiVersion] = useState<"1.2" | "1">("1.2");
 
-  const { data, error, isValidating, size, setSize } = useSWRInfinite(
+  const { data, error, isValidating, size, setSize } = useSWRInfinite<SleepLogListResponse>(
     (pageIndex, previousPageData) => {
-      if (previousPageData && previousPageData.sleep?.length === 0) {
+      if (!fetcher) {
+        return null
+      }
+
+      if (pageIndex === 0) {
+        const endDate = new Date(end);
+        const beforeDate = endDate.toISOString().slice(0, 10);
+        return {
+          path: `/${apiVersion}/user/-/sleep/list.json?beforeDate=${beforeDate}&sort=desc&offset=0&limit=100`,
+        }
+      }
+
+      const next = previousPageData?.pagination?.next;
+      if (!next) {
         console.log("no more data")
         return null
       }
 
-      const e = new Date(end);
-      e.setDate(e.getDate() - pageIndex * 100);
-      const s = new Date(e);
-      s.setUTCHours(1); // Add 1 hour to avoid daylight saving time issue
-      s.setDate(s.getDate() - 99);
-
+      const nextUrl = new URL(next);
       return {
-        path: `/${apiVersion}/user/-/sleep/date/${s.toISOString().slice(0, 10)}/${e.toISOString().slice(0, 10)}.json`,
+        path: nextUrl.pathname + nextUrl.search,
       }
     },
     fetcher,
@@ -35,7 +50,7 @@ export const useSleeps = (fetcher: Fetcher<any, {path: string}> | null, end: str
     .map(s => new Sleep(new Date(s.startTime), new Date(s.endTime)))
     .sort((a, b) => b.startTime.getTime() - a.startTime.getTime()) || [] as Sleep[];
 
-  const completed = Array.isArray(data) && data[data.length - 1]?.sleep?.length === 0;
+  const completed = Array.isArray(data) && !!data[data.length - 1] && !data[data.length - 1]?.pagination?.next;
 
   useEffect(() => {
     if (fetcher && !isValidating && !completed && !error && size <= (data || []).length) {
