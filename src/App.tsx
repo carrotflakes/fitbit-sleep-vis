@@ -9,8 +9,9 @@ import { useSleeps } from './hooks/useSleeps';
 function App() {
   const { signin, signout, fetcher, loggedin } = useFitbit();
 
+  const apiVersion = useApiVersion();
   const profile = useSWR(loggedin && { path: '/1/user/-/profile.json' }, fetcher);
-  const { sleeps, completed, error } = useSleeps(fetcher, new Date().toISOString().slice(0, 10));
+  const { sleeps, completed, error } = useSleeps(fetcher, new Date().toISOString().slice(0, 10), apiVersion);
   // const { sleeps, completed, error } = useSleepsDummy();
 
   return (
@@ -70,3 +71,9 @@ function App() {
 }
 
 export default App;
+
+function useApiVersion(): "1" | "1.1" | "1.2" {
+  const params = new URLSearchParams(window.location.search);
+  const raw = params.get('apiVersion');
+  return raw === '1' || raw === '1.1' || raw === '1.2' ? raw : '1.1';
+}
