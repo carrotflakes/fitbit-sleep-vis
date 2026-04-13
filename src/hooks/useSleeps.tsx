@@ -10,9 +10,7 @@ type SleepLogListResponse = {
   };
 };
 
-export const useSleeps = (fetcher: Fetcher<any, {path: string}> | null, end: string): { sleeps: Sleep[]; completed: boolean, error: null | Error } => {
-  const [apiVersion, setApiVersion] = useState<"1.2" | "1">("1.2");
-
+export const useSleeps = (fetcher: Fetcher<any, {path: string}> | null, end: string, apiVersion: "1" | "1.1" | "1.2"): { sleeps: Sleep[]; completed: boolean, error: null | Error } => {
   const { data, error, isValidating, size, setSize } = useSWRInfinite<SleepLogListResponse>(
     (pageIndex, previousPageData) => {
       if (!fetcher) {
@@ -60,13 +58,6 @@ export const useSleeps = (fetcher: Fetcher<any, {path: string}> | null, end: str
       }, 10);
     }
   }, [fetcher, isValidating, completed, error, data, size, setSize]);
-
-  useEffect(() => {
-    if (error && apiVersion === "1.2") {
-      console.log("switch to 1")
-      setApiVersion("1");
-    }
-  }, [error, apiVersion]);
 
   return {
     sleeps,
