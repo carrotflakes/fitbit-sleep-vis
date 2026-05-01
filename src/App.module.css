@@ -35,6 +35,42 @@
   margin-top: 10px;
 }
 
+.migrationNotice {
+  width: min(540px, calc(100% - 32px));
+  margin: 0 auto 16px;
+  padding: 16px 18px;
+  text-align: left;
+  background: #f4fbf3;
+  border: 1px solid #b9e0c3;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(17, 120, 83, 0.08);
+}
+
+.migrationTitle {
+  margin: 0 0 6px;
+  color: #136b4b;
+  font-weight: 700;
+}
+
+.migrationText {
+  margin: 0;
+  color: #355446;
+  line-height: 1.5;
+}
+
+.migrationLink {
+  display: inline-block;
+  margin-top: 12px;
+  color: #0e8356;
+  font-weight: 700;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+.migrationLink:hover {
+  color: #09a368;
+}
+
 .signinButton {
   margin: 10px;
   display: inline-block;

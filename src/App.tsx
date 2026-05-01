@@ -6,6 +6,8 @@ import SleepsView from './components/SleepsView';
 import useFitbit from './hooks/useFitbit';
 import { useSleeps } from './hooks/useSleeps';
 
+const nextAppUrl = 'https://sleep-vis.cflake.net/';
+
 function App() {
   const { signin, signout, fetcher, loggedin } = useFitbit();
 
@@ -41,7 +43,22 @@ function App() {
       <main className={styles.main}>
         {
           !loggedin && <div>
-            <button className={styles.signinButton} onClick={signin}>Sign in with Fitbit</button>
+            <div className={styles.migrationNotice}>
+              <p className={styles.migrationTitle}>A newer version is now available.</p>
+              <p className={styles.migrationText}>
+                Due to the discontinuation of the Fitbit Web API, this app will become unusable in September 2026.
+                Please try the new Google Health version.
+              </p>
+              <a
+                className={styles.migrationLink}
+                href={nextAppUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Open the new Sleep Vis
+              </a>
+            </div>
+            <button className={styles.signinButton} onClick={signin}>Continue with Fitbit</button>
           </div>
         }
         {
